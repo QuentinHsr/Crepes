@@ -114,12 +114,12 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
   #
   # On génère et on renvoie la liste des régions et leur coordonnées (version TD3)
   #
-  def send_regions(self):
+  def send_stations(self):
 
-    conn = sqlite3.connect('ter.sqlite')
+    conn = sqlite3.connect('Crepes.sqlite')
     c = conn.cursor()
     
-    c.execute("SELECT * FROM 'regions'")
+    c.execute("SELECT X,Y,LbStationHydro FROM 'Stations'")
     r = c.fetchall()
     
     headers = [('Content-Type','application/json')];
