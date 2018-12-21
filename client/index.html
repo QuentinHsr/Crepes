@@ -3,7 +3,7 @@
 <script src="leaflet.js"> // insertion bibliothèque Leaflet : http://leafletjs.com/ </script>
 
 <title>TD3-s7.html</title>
-<link rel="stylesheet" type="text/css" href="leaflet.css" /> 
+<link rel="stylesheet" type="text/css" href="leaflet.css" />
 <link rel="stylesheet" type="text/css" href="style.css"/>
 
 <meta charset="utf-8">
@@ -15,18 +15,18 @@ height: 350px;
 }
 #X3 {font-size:20;}
 #reponse {font-size:22,color:cyan;}
-</style>                           
+</style>
 
 
 
 
 <body onload="load_data()">  <!-- Récupération des données avec le chargement de la page -->
 
-<h1>Hydrométrie de la Bretagne</h1>
+<h1>Hydrométrie des rivières Bretonnes</h1>
 
- <!-- <label><span>Région :</span><input id="region" name="Region"> 
+ <!-- <label><span>Région :</span><input id="region" name="Region">
  <button id="bouton">Afficher la courbe</button>  </label>  -->
- <div id="map"></div>  
+ <div id="map"></div>
 
 <div id="reponse">
   <p align="center"></p>
@@ -48,7 +48,7 @@ var map = L.map('map').setView([48.15,-3], 7.5);
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
      }).addTo(map);
-	 
+
 function load_data () {
     var xhr = new XMLHttpRequest();
     xhr.onload = function() {   // fonction callback
@@ -81,5 +81,3 @@ function OnMarkerClick (e) {
     xhr.send();
 }
 </script>
-
-
