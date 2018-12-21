@@ -38,16 +38,15 @@ height: 350px;
 #map { height: 400px; width: 340px; float:left; margin-left:2%; margin-right:2%; border-top: 4px solid rgb(33,33,33);border-bottom: 4px solid rgb(33,33,33) ;border-left: 4px solid rgb(33,33,33);border-right: 4px solid rgb(33,33,33  )}
 </style>
 
-<div id = "X3"> 
+<div id = "X3">
 
 <legend>Entrer la date qui vous interesse</legend>
 <select name="choix">
     <option value="None",selected="selected">-----------------------</option>
-         
+
     <option value="20/10/1999">20/10/1999</option>
     <option value="28/12/1997">28/12/1997</option>
     <option value="27/12/2004">27/12/2004</option>
-    
 
 </div>
 
@@ -70,12 +69,16 @@ function load_data () {
         // insertion d'un marqueur à la position, attachement d'une popup, capture de l'évènement "clic'
 	    L.marker([data[n].lat,data[n].lon]).addTo(map)
           .bindPopup(data[n].nom)
-		  .addEventListener('click',OnMarkerClick)
-		  .idreg=data[n].nom;   // propriété personnalisée ajouté au marqueur
+		  .addEventListener('click',AfficheCd)
+		  .idreg=data[n].cd;   // propriété personnalisée ajouté au marqueur
 	    }
     };
     xhr.open('GET','/stations',true);
     xhr.send();
+}
+
+function AfficheCd(e) {
+    document.getElementById('reponse').innerHTML=e.target.idreg;
 }
 
 function OnMarkerClick (e) {
@@ -88,7 +91,7 @@ function OnMarkerClick (e) {
       image.alt = data.title;
       legende.innerHTML = data.title;
       };
-    xhr.open('GET','/ponctualite/'+e.target.idreg,true);  // on récupère la courbe par un appel au serveur
+    xhr.open('GET','/debits/'+e.target.idreg,true);  // on récupère la courbe par un appel au serveur
     xhr.send();
 }
 </script>
