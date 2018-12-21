@@ -123,7 +123,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     r = c.fetchall()
     
     headers = [('Content-Type','application/json')];
-    body = json.dumps([{'nom':n, 'lat':lat, 'lon': lon} for (n,lat,lon) in r])
+    body = json.dumps([{'nom':n, 'lat':lat, 'lon': lon} for (lon,lat,n) in r])
     self.send(body,headers)
 
   #
