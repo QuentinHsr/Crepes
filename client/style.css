@@ -7,7 +7,7 @@ h1 {
   border-top: 4px solid rgb(33,33,33);
   border-bottom: 4px solid rgb(33,33,33);
   margin-left: 0;
-  margin-right :-2%;
+  margin-right :-0.01%;
   text-shadow:none;
   padding-top : 1.5% ;
   padding-bottom: 1.5%;
@@ -20,11 +20,15 @@ body {
   background-size: 100%;
   background-repeat: no-repeat;
   background-color: rgba(223,243,249,1);
-  height: 100vh;
+  height: 97vh;
   margin-left: 0;
   margin-right : 0; 
   /* pour éviter l'ascenseur */
   box-sizing: border-box;
+}
+
+#X3 {coordsfont-size:11;margin-top:400px;
+
 }
 
 
