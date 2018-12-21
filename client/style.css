@@ -25,12 +25,11 @@ body {
   margin-right : 0; 
   /* pour éviter l'ascenseur */
   box-sizing: border-box;
-}
-
-#X3 {coordsfont-size:11;margin-top:400px;
 
 }
+#X3 {font-size:11;margin-top:400px;margin-left:-300px;
 
+}
 
 
 /* contenu de la page */
