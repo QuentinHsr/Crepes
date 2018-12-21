@@ -22,7 +22,7 @@ height: 350px;
 
 <body onload="load_data()">  <!-- Récupération des données avec le chargement de la page -->
 
-<h1>Hydrométrie des rivières Bretonnes</h1>
+<h1>Hydrométrie des rivières bretonnes</h1>
 
  <!-- <label><span>Région :</span><input id="region" name="Region">
  <button id="bouton">Afficher la courbe</button>  </label>  -->
@@ -63,7 +63,7 @@ function load_data () {
 		  .idreg=data[n].nom;   // propriété personnalisée ajouté au marqueur
 	    }
     };
-    xhr.open('GET','/regions',true);
+    xhr.open('GET','/stations',true);
     xhr.send();
 }
 

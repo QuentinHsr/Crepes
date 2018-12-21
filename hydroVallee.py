@@ -33,8 +33,8 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
       self.send_time()
    
      # le chemin d'accès commence par /regions
-    elif self.path_info[0] == 'regions':
-      self.send_regions()
+    elif self.path_info[0] == 'stations':
+      self.send_stations()
       
     # le chemin d'accès commence par /ponctualite
     elif self.path_info[0] == 'ponctualite':
