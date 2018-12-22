@@ -103,7 +103,7 @@ function load_data () {
         // insertion d'un marqueur à la position, attachement d'une popup, capture de l'évènement "clic'
 	    L.marker([data[n].lat,data[n].lon]).addTo(map)
           .bindPopup(data[n].nom)
-		  .addEventListener('click',AfficheCd)
+		  .addEventListener('click',OnMarkerClick)
 		  .idreg=data[n].cd;   // propriété personnalisée ajouté au marqueur
 	    }
     };
