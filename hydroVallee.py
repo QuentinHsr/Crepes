@@ -1,5 +1,5 @@
-# regularite-TER.py
-# Correpond au corrigé du dernier exercice du TD3+4 (TD3-s7.py)
+# hydroVallee.py
+# Serveur pour le site d'information sur l'hydrométrie des rivières bretonnes.
 
 import http.server
 import socketserver
@@ -38,6 +38,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
       
     elif self.path_info[0] == 'debits':
       self.send_debits()
+      
     # le chemin d'accès commence par /ponctualite
     elif self.path_info[0] == 'ponctualite':
       self.send_ponctualite()
@@ -206,10 +207,10 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         pass
     else:
         # On teste que la région demandée existe bien
-        c.execute("SELECT DISTINCT Région FROM 'regularite-mensuelle-ter'")
-        reg = c.fetchall()
-        if (self.path_info[1],) in reg:   # Rq: reg est une liste de tuples
-          regions = [(self.path_info[1],"blue")]
+        c.execute("SELECT DISTINCT code_hydro FROM 'hydro_historique'")
+        codes = c.fetchall()
+        if (self.path_info[1],) in codes:   # Rq: reg est une liste de tuples
+          station = [(self.path_info[1],"blue")]
         else:
             print ('Erreur nom')
             self.send_error(404)    # Région non trouvée -> erreur 404
@@ -226,31 +227,31 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     ax.xaxis.set_major_formatter(pltd.DateFormatter('%B %Y'))
     ax.xaxis.set_tick_params(labelsize=10)
     ax.xaxis.set_label_text("Date")
-    ax.yaxis.set_label_text("% de régularité")
+    ax.yaxis.set_label_text("débit")
             
     # boucle sur les régions
-    for l in (regions) :
-        c.execute("SELECT * FROM 'regularite-mensuelle-ter' WHERE Région=? ORDER BY Date",l[:1])  # ou (l[0],)
+    for l in (station) :
+        c.execute("SELECT debit_donnee_validee_m3 FROM 'hydro_historique' WHERE code_hydro=? ORDER BY date",l[:1])  # ou (l[0],)
         r = c.fetchall()
         # recupération de la date (colonne 2) et transformation dans le format de pyplot
         x = [pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:]),1)) for a in r if not a[7] == '']
-        # récupération de la régularité (colonne 8)
+        # récupération des débits (colonne 8)
         y = [float(a[7]) for a in r if not a[7] == '']
         # tracé de la courbe
         plt.plot(x,y,linewidth=1, linestyle='-', marker='o', color=l[1], label=l[0])
         
     # légendes
     plt.legend(loc='lower left')
-    plt.title('Régularité des TER (en %)',fontsize=16)
+    plt.title("Débits du lait débit de l'eau",fontsize=16)
 
     # génération des courbes dans un fichier PNG
-    fichier = 'courbes/ponctualite_'+self.path_info[1] +'.png'
+    fichier = 'courbes/debits_'+self.path_info[1] +'.png'
     plt.savefig('client/{}'.format(fichier))
     plt.close()
     
     #html = '<img src="/{}?{}" alt="ponctualite {}" width="100%">'.format(fichier,self.date_time_string(),self.path)
     body = json.dumps({
-            'title': 'Régularité TER '+self.path_info[1], \
+            'title': 'Debit Station '+self.path_info[1], \
             'img': '/'+fichier \
              });
     # on envoie
