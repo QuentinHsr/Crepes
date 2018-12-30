@@ -124,9 +124,20 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     
     c.execute("SELECT X,Y,LbStationHydro,CdStationHydroAncienRef FROM 'Stations'")
     r = c.fetchall()
+    #On vérifie que des données sur la station sont diponibles dans la table de données
+    c.execute("SELECT DISTINCT code_hydro FROM 'hydro_historique'")
+    ac = c.fetchall()  
+    
+    for i in range(len(r)):
+        if (r[i][3],) in ac:
+            r[i]+=(1,)
+            print(r[i][3])
+    
+        else:
+            r[i]+=(0,)
     
     headers = [('Content-Type','application/json')];
-    body = json.dumps([{'nom':n, 'lat':lat, 'lon': lon, 'cd':cd} for (lon,lat,n,cd) in r])
+    body = json.dumps([{'nom':n, 'lat':lat, 'lon': lon, 'cd':cd, 'datAv': datAv} for (lon,lat,n,cd,datAv) in r])
     self.send(body,headers)
 
 
@@ -179,7 +190,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         
     # légendes
     plt.legend(loc='lower left')
-    plt.title("Débits du lait débit de l'eau",fontsize=16)
+    plt.title("Débits débit de l'eau de lait",fontsize=16)
 
     # génération des courbes dans un fichier PNG
     fichier = 'courbes/debits_'+self.path_info[1] +'.png'
