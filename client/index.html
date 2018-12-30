@@ -146,8 +146,11 @@ function OnMarkerClick (e) {
         image.src = data.img;
         image.alt = data.title;
         legende.innerHTML = data.title;
+      }else{
+        image.src = "images/galette.jpg"
+        legende.innerHTML = "On n'a pas les données mais on a des galettes"
       }
-      
+
     };
     xhr.open('GET','/debits/'+e.target.idreg,true);  // on récupère la courbe par un appel au serveur
     xhr.send();
