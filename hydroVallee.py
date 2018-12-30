@@ -190,7 +190,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         
     # légendes
     plt.legend(loc='lower left')
-    plt.title("Débits débit de l'eau de lait",fontsize=16)
+    plt.title("Débits de l'eau débit de lait",fontsize=16)
 
     # génération des courbes dans un fichier PNG
     fichier = 'courbes/debits_'+self.path_info[1] +'.png'
