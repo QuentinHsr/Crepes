@@ -167,7 +167,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     # configuration du tracé
     fig1 = plt.figure(figsize=(18,6))
     ax = fig1.add_subplot(111)
-    ax.set_ylim(bottom=0,top=10)
+    #ax.set_ylim(bottom=0,top=10)
     ax.grid(which='major', color='#888888', linestyle='-')
     ax.grid(which='minor',axis='x', color='#888888', linestyle=':')
     ax.xaxis.set_major_locator(pltd.YearLocator())
