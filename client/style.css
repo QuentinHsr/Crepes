@@ -19,7 +19,7 @@ h1 {
 body {
   background-size: 100%;
   background-repeat: no-repeat;
-  background-color: rgba(223,243,249,1);
+  background-color: rgba(252,252,252,1);
   height: 97vh;
   margin-left: 0;
   margin-right : 0; 
@@ -27,10 +27,10 @@ body {
   box-sizing: border-box;
 
 }
-#X3 {font-size:11;margin-top:400px;margin-left:-300px;
+#X3 {font-size:20;margin-top:400px;margin-left:-300px
 
 }
-
+STARF
 
 /* contenu de la page */
 body > * {   padding-left: 25%; }
