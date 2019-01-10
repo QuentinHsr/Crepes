@@ -15,6 +15,15 @@ h1 {
   margin-right:-2%;
 }
 
+/*sous-titre*/
+
+h2 {
+  text-align: center;
+
+  
+}
+
+
 /* fond de page */
 body {
   background-size: 100%;
@@ -23,24 +32,23 @@ body {
   height: 97vh;
   /* pour éviter l'ascenseur */
   box-sizing: border-box;
+  font-family: Century Gothic, sans-serif;
 
 }
-#Datedebut {
+#Datedebut, #Datefin {
   font-size:30;
-  margin-top:0%; 
-  text-align: right;
+  margin-top:30%; 
+  text-align:left;
    }
 
 #bouton{
-  text-align:right;
+  text-align:left;
   margin-top:5%;
 }
 
-#Datefin{
-  font-size:30;
-  margin-top:1%;
-  text-align:right; 
-    }
+
+
+#reponse {font-size:22,color:cyan;}
 
 #map { 
   height:60%;
@@ -51,11 +59,6 @@ body {
   border-left: 4px solid rgb(33,33,33);
   border-right: 4px solid rgb(33,33,33);
 }
-
-/* contenu de la page */
-
-/* polices de caractères */
-body { font-family: Century Gothic, sans-serif; }
 
 /* positionnement des champs */
 label { display: block; }
