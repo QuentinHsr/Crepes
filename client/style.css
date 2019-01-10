@@ -38,26 +38,25 @@ body {
 #Datedebut, #Datefin {
   font-size:30;
   margin-top:1%; 
-  text-align:left;
+  text-align:center;
    }
 
 #bouton{
-  text-align:left;
+  text-align:center;
   margin-top:5%;
 }
-
 
 
 #reponse {font-size:22,color:cyan;}
 
 #map { 
   height:60%;
-  width: 60%;
-  float:left; 
+  width: 92%;
   border-top: 4px solid rgb(33,33,33);
   border-bottom: 4px solid rgb(33,33,33) ;
   border-left: 4px solid rgb(33,33,33);
   border-right: 4px solid rgb(33,33,33);
+  margin:auto;
 }
 
 /* positionnement des champs */
