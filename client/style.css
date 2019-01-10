@@ -6,8 +6,7 @@ h1 {
   background-color: rgb(33,33,33);
   border-top: 4px solid rgb(33,33,33);
   border-bottom: 4px solid rgb(33,33,33);
-  margin-left: 0;
-  margin-right :0;
+  text-align: center;
   text-shadow:1;
   padding-top : 1.5% ;
   padding-bottom: 1.5%;
@@ -21,15 +20,13 @@ body {
   background-repeat: no-repeat;
   background-color: rgba(252,252,252,1);
   height: 97vh;
-  margin-left: 0;
-  margin-right : 0; 
   /* pour éviter l'ascenseur */
   box-sizing: border-box;
 
 }
-#X3 {font-size:30;margin-top:150px;margin-left:20px, 
+#Datedebut {font-size:30;margin-top:400px; text-align: left; }
+#Datefin{font-size:30;margin-top:410px;text-align:left; }
 
-}
 /* contenu de la page */
 body > * {   padding-left: 25%; }
 
@@ -73,4 +70,4 @@ a {
 a.delete:hover {
   color: red;
 }
-#map { height: 450px; width: 800px; }
+#map { height: 450px; width:700px; }
