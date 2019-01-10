@@ -97,14 +97,14 @@ height: 350px;
     <option value="2018">2018</option>
 
 </select>
-<button id="bouton" type="bouton"> C'est parti </button>
+<button id="valider" type="bouton" onclick="Valider();"> Valider </button>
 </div>
 
 
 <div id='Datefin'>
 
 <legend>Entrer la date de fin</legend>
-<select name="Jourfin">Jour
+<select name="Jourfin" id="Jourfin">Jour
     <option value="None",selected="selected">Jour</option>
     <option value="01">01</option>
     <option value="02">02</option>
@@ -225,9 +225,15 @@ function OnMarkerClick (e) {
         image.src = "images/galette.jpg"
         legende.innerHTML = "On n'a pas les données mais on a des galettes"
       }
-
     };
-    xhr.open('GET','/debits/'+e.target.idreg,true);  // on récupère la courbe par un appel au serveur
+
+    chaine='/debits/'
+    xhr.open('GET',chaine+e.target.idreg,true);  // on récupère la courbe par un appel au serveur
     xhr.send();
+}
+
+function Valider(e){
+  jourdeb = document.getElementById('Jourfin').value;
+  document.getElementById('reponse').innerHTML=jourdeb;
 }
 </script>
