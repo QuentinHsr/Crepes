@@ -28,7 +28,7 @@ body {
 #Datedebut {font-size:30;margin-top:21%; text-align: left; }
 #Datefin{font-size:30;margin-top:22%;text-align:left; }
 
-#map { height:50%; width: 40%;
+#map { height:50%; width: 60%;
   float:left; border-top: 4px solid rgb(33,33,33);
   border-bottom: 4px solid rgb(33,33,33) ;
   border-left: 4px solid rgb(33,33,33);
