@@ -194,7 +194,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
     # génération des courbes dans un fichier PNG
     fichier = 'courbes/debits_'+self.path_info[1] +'.png'
- #   plt.savefig('client/{}'.format(fichier))
+    plt.savefig('client/{}'.format(fichier))
     plt.close()
     
     #html = '<img src="/{}?{}" alt="ponctualite {}" width="100%">'.format(fichier,self.date_time_string(),self.path)
