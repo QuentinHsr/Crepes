@@ -11,7 +11,8 @@ h1 {
   padding-top : 1.5% ;
   padding-bottom: 1.5%;
   margin-top: -1%;
-  margin-bottom: 1.33%;
+  margin-left:-2%;
+  margin-right:-2%;
 }
 
 /* fond de page */
@@ -24,11 +25,16 @@ body {
   box-sizing: border-box;
 
 }
-#Datedebut {font-size:30;margin-top:400px; text-align: left; }
-#Datefin{font-size:30;margin-top:410px;text-align:left; }
+#Datedebut {font-size:30;margin-top:21%; text-align: left; }
+#Datefin{font-size:30;margin-top:22%;text-align:left; }
+
+#map { height:60%; width: 40%;
+  float:left; border-top: 4px solid rgb(33,33,33);
+  border-bottom: 4px solid rgb(33,33,33) ;
+  border-left: 4px solid rgb(33,33,33);
+  border-right: 4px solid rgb(33,33,33  )}
 
 /* contenu de la page */
-body > * {   padding-left: 25%; }
 
 /* polices de caractères */
 body { font-family: Century Gothic, sans-serif; }
