@@ -193,10 +193,10 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         ax.xaxis.set_major_formatter(pltd.DateFormatter('%B %Y'))
         ax.xaxis.set_tick_params(labelsize=10)
         ax.xaxis.set_label_text("Date")
-        ax.yaxis.set_label_text("débit")
+        ax.yaxis.set_label_text("Débit (en )")
                  # légendes
         plt.legend(loc='lower left')
-        plt.title("Débits de l'eau débit de lait",fontsize=16)
+        plt.title("Débits journaliers pour la station sélectionnée",fontsize=16)
         # boucle sur les régions
         for l in (station) :
             code='"'+l[0]+'"'
@@ -243,7 +243,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         ax.yaxis.set_label_text("moyenne_interannuelle")
                  # légendes
         plt.legend(loc='lower left')
-        plt.title("Débits de l'eau débit de lait",fontsize=16)
+        plt.title("Moyennes interannuelles pour la station sélectionnée",fontsize=16)
          # boucle sur les régions
         for l in (station) :
             code='"'+l[0]+'"'
@@ -286,7 +286,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         ax.yaxis.set_label_text("moyenne_interannuelle_et_debit")
                  # légendes
         plt.legend(loc='lower left')
-        plt.title("Débits de l'eau débit de lait",fontsize=16)
+        plt.title("Débits et moyennes interannuelles pour la station sélectionnée",fontsize=16)
          # boucle sur les régions
         for l in (station) :
             code='"'+l[0]+'"'
