@@ -172,11 +172,11 @@
 
 </fieldset>
 
+</form>
+
 <fieldset id="Valider">
 	<button id="valider" type="bouton" onclick="Valider();"> Valider </button>
 </fieldset>
-
-</form>
 
 <div id="reponse">
 	<p></p>
@@ -186,7 +186,7 @@
 </body>
 
 <footer>
-© Copyright 2019 - Tous droits réservés
+© Copyright Groupe D 2019 - Tous droits réservés
 </footer>
 
 <script>
@@ -242,39 +242,44 @@ function AfficheAv(e) {
 
 
 
-station="";
+stationID="";
+dataIsAv="";
 
 function OnMarkerClick (e) {
-  var xhr = new XMLHttpRequest();
+  stationID=e.target.idreg;
+	dataIsAv=e.target.dataIsAv;
+	document.querySelector('#reponse img')
+	.scrollIntoView({ behavior: 'smooth' });
+}
+
+function Valider(e){
+//  jourf = document.getElementById('Jourfin').value;
+//  document.querySelector('#reponse p').innerHTML=jourf;
+	//window.scrollBy(0,-1000);
+
+	var xhr = new XMLHttpRequest();
 	//var image =  document.querySelector('#reponse img'),
-  //      legende = document.querySelector('#reponse p');
+	//      legende = document.querySelector('#reponse p');
 	xhr.onload = function() {   // fonction callback
-      if(e.target.dataIsAv){
-        var data = JSON.parse(this.responseText)
-        image.src = data.img;
-				stationID=e.target.idreg;
+			if(dataIsAv){
+				var data = JSON.parse(this.responseText)
+				image.src = data.img;
 				image.alt = data.title;
-        legende.innerHTML = data.title;
-      }else{
-        image.src = graphiqueSource;
-        legende.innerHTML = "On n'a pas les données mais on a des galettes"
-      }
-			document.querySelector('#reponse img').scrollIntoView({ behavior: 'smooth' });
-    };
+				legende.innerHTML = data.title;
+			}else{
+				image.src = graphiqueSource;
+				legende.innerHTML = "On n'a pas les données mais on a des galettes"
+			}
+
+		};
 		var anD="/2018", moisD="/01",jourD="/02";
 		var anF="/2018", moisF="/01",jourF="/15";
 
 
-    chaine='/debits_moyennes/'+e.target.idreg+anD+moisD+jourD+anF+moisF+jourF;
+		chaine='/debits_moyennes/'+stationID+anD+moisD+jourD+anF+moisF+jourF;
 
-    xhr.open('GET',chaine,true);  // on récupère la courbe par un appel au serveur
-    xhr.send();
-}
+		xhr.open('GET',chaine,true);  // on récupère la courbe par un appel au serveur
+		xhr.send();
 
-function Valider(e){
-  jourf = document.getElementById('Jourfin').value;
-//  document.querySelector('#reponse p').innerHTML=jourf;
-	//window.scrollBy(0,-1000);
-	document.querySelector('h2').scrollIntoView({ behavior: 'smooth' });
 }
 </script>
