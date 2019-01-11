@@ -249,8 +249,10 @@ function OnMarkerClick (e) {
       }
 			document.querySelector('#reponse img').scrollIntoView({ behavior: 'smooth' });
     };
+		var anD="/2017", moisD="/09",jourD="/02";
+		var anF="/2017", moisF="/09",jourF="/15";
 
-    chaine='/debits_moyennes/'+e.target.idreg+anD+moisD+jourD+anF+moisF+jourF
+    chaine='/debits_moyennes/'+e.target.idreg+anD+moisD+jourD+anF+moisF+jourF;
     xhr.open('GET',chaine,true);  // on récupère la courbe par un appel au serveur
     xhr.send();
 }
