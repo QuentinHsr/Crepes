@@ -163,11 +163,11 @@
 </fieldset>
 
 <fieldset>
-<legend>Que voulez vous afficher</legend>    
+<legend>Que voulez vous afficher</legend>
 
 <input type ="checkbox" name = "Debit" id = "Debit" /><label for="Debit">Debit</label>
-<input type ="checkbox" name = "Moyenne Interanuelle" id = "Moyenne Interanuelle" /><label for="Moyenne Interanuelle">Moyenne Interanuelle</label>
-<input type ="checkbox" name = "Valeur faible" id = "Valeur faible" /><label for="Valeur faible">Valeur faible</label>
+<input type ="checkbox" name = "Moyenne Interanuelle" id = "Moyenne_Interanuelle" /><label for="Moyenne Interanuelle">Moyenne Interanuelle</label>
+<input type ="checkbox" name = "Valeur faible" id = "Valeur_faible" /><label for="Valeur faible">Valeur faible</label>
 
 </fieldset>
 </form>
@@ -179,6 +179,9 @@
 
 </body>
 
+<footer>
+© Copyright 2019 - Tous droits réservés 
+</footer>
 
 <script>
 // Creation d'une carte dans la balise div "map", et positionne la vue sur un point donné et un niveau de zoom
@@ -242,7 +245,7 @@ function OnMarkerClick (e) {
       }
     };
 
-    chaine='/moyennes/'
+    chaine='/debits_moyennes/'
     xhr.open('GET',chaine+e.target.idreg,true);  // on récupère la courbe par un appel au serveur
     xhr.send();
 }

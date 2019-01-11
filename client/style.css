@@ -77,6 +77,21 @@ form {
   margin:auto;
 }
 
+footer
+{
+  color: white;
+  box-shadow: none; 
+  background-color: rgb(33,33,33);
+  border-top: 4px solid rgb(33,33,33);
+  border-bottom: 4px solid rgb(33,33,33);
+  text-align: center;
+  padding-top : 1.5% ;
+  padding-bottom: 1.5%;
+  margin-top: -1%;
+  margin-left:-2%;
+  margin-right:-2%;
+}
+
 /* positionnement des champs */
 
 label span { display: inline-block; width: 0em; height: 0em; }
