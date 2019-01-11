@@ -246,13 +246,13 @@ station="";
 
 function OnMarkerClick (e) {
   var xhr = new XMLHttpRequest();
-	var image =  document.querySelector('#reponse img'),
-        legende = document.querySelector('#reponse p');
+	//var image =  document.querySelector('#reponse img'),
+  //      legende = document.querySelector('#reponse p');
 	xhr.onload = function() {   // fonction callback
       if(e.target.dataIsAv){
         var data = JSON.parse(this.responseText)
-        //image.src = data.img;
-
+        image.src = data.img;
+				stationID=e.target.idreg;
 				image.alt = data.title;
         legende.innerHTML = data.title;
       }else{
