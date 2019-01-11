@@ -11,8 +11,12 @@
 
 <body onload="load_data()">  <!-- Récupération des données avec le chargement de la page -->
 
-<h1>Hydrométrie des rivières bretonnes</h1>
 
+<h1>
+	<img src="/images/Triskele.png">
+	Hydrométrie des rivières bretonnes
+	<img src="/images/Triskele.png">
+</h1>
 
 <h2>Carte de la Bretagne</h2>
 	<div id="map"></div>
@@ -133,18 +137,18 @@
 
 <select name="Moisfin">Mois
     <option value="None" selected="selected">Mois</option>
-    <option value="01">01</option>
-    <option value="02">02</option>
-    <option value="03">03</option>
-    <option value="04">04</option>
-    <option value="05">05</option>
-    <option value="06">06</option>
-    <option value="07">07</option>
-    <option value="08">08</option>
-    <option value="09">09</option>
-    <option value="10">10</option>
-    <option value="11">11</option>
-    <option value="12">12</option>
+    <option value="01">Janvier</option>
+    <option value="02">Fevrier</option>
+    <option value="03">Mars</option>
+    <option value="04">Avril</option>
+    <option value="05">Mai</option>
+    <option value="06">Juin</option>
+    <option value="07">Juillet</option>
+    <option value="08">Août</option>
+    <option value="09">Septembre</option>
+    <option value="10">Octobre</option>
+    <option value="11">Novembre</option>
+    <option value="12">Décembre</option>
 </select>
 
 <select name="Anneefin">Année
@@ -163,11 +167,11 @@
 </fieldset>
 
 <fieldset>
-<legend>Que voulez vous afficher</legend>    
+<legend>Que voulez vous afficher</legend>
 
 <input type ="checkbox" name = "Debit" id = "Debit" /><label for="Debit">Debit</label>
-<input type ="checkbox" name = "Moyenne Interanuelle" id = "Moyenne Interanuelle" /><label for="Moyenne Interanuelle">Moyenne Interanuelle</label>
-<input type ="checkbox" name = "Valeur faible" id = "Valeur faible" /><label for="Valeur faible">Valeur faible</label>
+<input type ="checkbox" name = "Moyenne Interanuelle" id = "Moyenne_Interanuelle" /><label for="Moyenne Interanuelle">Moyenne Interanuelle</label>
+<input type ="checkbox" name = "Valeur faible" id = "Valeur_faible" /><label for="Valeur faible">Valeur faible</label>
 
 </fieldset>
 </form>
@@ -179,6 +183,9 @@
 
 </body>
 
+<footer>
+© Copyright 2019 - Tous droits réservés
+</footer>
 
 <script>
 // Creation d'une carte dans la balise div "map", et positionne la vue sur un point donné et un niveau de zoom
@@ -240,16 +247,23 @@ function OnMarkerClick (e) {
         image.src = "images/galette.jpg"
         legende.innerHTML = "On n'a pas les données mais on a des galettes"
       }
+			document.querySelector('#reponse img').scrollIntoView({ behavior: 'smooth' });
     };
+		var anD="/2017", moisD="/09",jourD="/02";
+		var anF="/2017", moisF="/09",jourF="/15";
 
-    chaine='/moyennes/'
-    xhr.open('GET',chaine+e.target.idreg,true);  // on récupère la courbe par un appel au serveur
+<<<<<<< HEAD
+    chaine='/debits/'+e.target.idreg+anD+moisD+jourD+anF+moisF+jourF
+=======
+    chaine='/debits_moyennes/'+e.target.idreg+anD+moisD+jourD+anF+moisF+jourF;
+>>>>>>> cf1a78544e0de100b1a33301ac229de3e8e16cd5
+    xhr.open('GET',chaine,true);  // on récupère la courbe par un appel au serveur
     xhr.send();
 }
 
 function Valider(e){
   jourf = document.getElementById('Jourfin').value;
-  document.querySelector('#reponse p').innerHTML=jourf;
+//  document.querySelector('#reponse p').innerHTML=jourf;
 	//window.scrollBy(0,-1000);
 	document.querySelector('h2').scrollIntoView({ behavior: 'smooth' });
 }
