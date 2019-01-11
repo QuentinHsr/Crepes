@@ -247,6 +247,7 @@ function OnMarkerClick (e) {
   stationID=e.target.idreg;
 	dataIsAv=e.target.dataIsAv;
 	nomStat=e.target.nom;
+	document.querySelector('#reponse p').innerHTML=nomStat;
 	document.querySelector('#Gestion')
 	.scrollIntoView({ behavior: 'smooth' });
 }
