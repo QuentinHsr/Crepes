@@ -197,7 +197,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 
         # boucle sur les régions
         for l in (station) :
-            c.execute("SELECT debit_donnee_validee_m3,date FROM 'hydro_historique' WHERE code_hydro=? AND date BETWEEN d1 AND d2 ORDER BY date",l[:1])  # ou (l[0],)
+            c.execute("SELECT debit_donnee_validee_m3,date FROM (SELECT debit_donnee_validee_m3,date FROM hydro_historique  WHERE code_hydro=?) WHERE date BETWEEN {} and {} ORDER BY date".format(d1,d2),l[:1])  # ou (l[0],)
             r = c.fetchall()
             # recupération de la date (colonne 2) et transformation dans le format de pyplot
             x = [pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r if not a[0] == '']
@@ -243,7 +243,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         
          # boucle sur les régions
         for l in (station) :
-            c.execute("SELECT moyenne_interannuelle,date FROM 'hydro_historique' WHERE code_hydro=? ORDER BY date",l[:1])  # ou (l[0],)
+            c.execute("SELECT moyenne_interannuelle,date FROM (SELECT moyenne_interannuelle,date FROM hydro_historique  WHERE code_hydro=?) WHERE date BETWEEN {} and {} ORDER BY date".format(d1,d2),l[:1])  # ou (l[0],)
             r = c.fetchall()
             # recupération de la date (colonne 2) et transformation dans le format de pyplot
             x = [pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r if not a[0] == '']
@@ -287,7 +287,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         
          # boucle sur les régions
         for l in (station) :
-            c.execute("SELECT debit_donnee_validee_m3,date FROM 'hydro_historique' WHERE code_hydro=? ORDER BY date",l[:1])  # ou (l[0],)
+            c.execute("SELECT debit_donnee_validee_m3,date FROM (SELECT debit_donnee_validee_m3,date FROM hydro_historique  WHERE code_hydro=?) WHERE date BETWEEN {} and {} ORDER BY date".format(d1,d2),l[:1])  # ou (l[0],)
             r1 = c.fetchall()
             # recupération de la date (colonne 2) et transformation dans le format de pyplot
             x1 = [pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r1 if not a[0] == '']
@@ -295,7 +295,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             y = [float(a[0]) for a in r1 if not a[0] == '']
             
         
-            c.execute("SELECT moyenne_interannuelle,date FROM 'hydro_historique' WHERE code_hydro=? ORDER BY date",l[:1])  # ou (l[0],)
+            c.execute("SELECT moyenne_interannuelle,date FROM (SELECT moyenne_interannuelle,date FROM hydro_historique  WHERE code_hydro=?) WHERE date BETWEEN {} and {} ORDER BY date".format(d1,d2),l[:1])  # ou (l[0],)
             r2 = c.fetchall()
             x2=[pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r2 if not a[0] == '']
             # récupération des débits (colonne 8)
