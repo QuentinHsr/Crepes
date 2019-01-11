@@ -244,7 +244,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             plt.plot(x,y,linewidth=1, linestyle='-', marker='o', color=l[1], label=l[0])
         
         # génération de la courbe de la moyenne dans un fichier PNG
-        fichier2 = 'courbe/moyenne'+self.path_info[1] +'.png'
+        fichier2 = 'courbes/moyenne'+self.path_info[1] +'.png'
         plt.savefig('client/{}'.format(fichier2))
         plt.close()
     
@@ -278,7 +278,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         
          # boucle sur les régions
         for l in (station) :
-            c.execute("SELECT debit,date FROM 'hydro_historique' WHERE code_hydro=? ORDER BY date",l[:1])  # ou (l[0],)
+            c.execute("SELECT debit_donnee_validee_m3,date FROM 'hydro_historique' WHERE code_hydro=? ORDER BY date",l[:1])  # ou (l[0],)
             r1 = c.fetchall()
             # recupération de la date (colonne 2) et transformation dans le format de pyplot
             x1 = [pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r1 if not a[0] == '']
@@ -292,11 +292,11 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             # récupération des débits (colonne 8)
             z = [float(b[0]) for b in r2 if not b[0] == '']
             # tracé de la courbe
-            plt.plot(x1,y,linewidth=1, linestyle='-', marker='o', color=l[1], label=l[0])
-            plt.plot(x2,z,linewidth=1,linestyle='-',marker='o',color=l[1],label=l[0])
+            plt.plot(x1,y,linewidth=1, linestyle='-', marker='o', label=l[0])
+            plt.plot(x2,z,linewidth=1,linestyle='-',marker='o',label=l[0])
         
         # génération de la courbe de la moyenne dans un fichier PNG
-        fichier3 = 'courbe/débitmoyenne'+self.path_info[1] +'.png'
+        fichier3 = 'courbes/debitmoyenne'+self.path_info[1] +'.png'
         plt.savefig('client/{}'.format(fichier3))
         plt.close()
     
