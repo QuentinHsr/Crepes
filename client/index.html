@@ -252,7 +252,15 @@ function OnMarkerClick (e) {
 		var anD="/2017", moisD="/09",jourD="/02";
 		var anF="/2017", moisF="/09",jourF="/15";
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+    chaine='/debits/'+e.target.idreg+anD+moisD+jourD+anF+moisF+jourF
+=======
     chaine='/debits_moyennes/'+e.target.idreg+anD+moisD+jourD+anF+moisF+jourF;
+>>>>>>> cf1a78544e0de100b1a33301ac229de3e8e16cd5
+=======
+    chaine='/debits_moyennes/'+e.target.idreg+anD+moisD+jourD+anF+moisF+jourF;
+>>>>>>> cf1a78544e0de100b1a33301ac229de3e8e16cd5
     xhr.open('GET',chaine,true);  // on récupère la courbe par un appel au serveur
     xhr.send();
 }
