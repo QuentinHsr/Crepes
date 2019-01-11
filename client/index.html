@@ -23,6 +23,10 @@
 
 
 <h2>Gestion des graphiques</h2>
+<form>
+
+<fieldset>
+    <legend>Quelle periode ?</legend>
 <div id='selecteur'>
 <div id = "Datedebut">
 
@@ -156,11 +160,21 @@
 <button id="bouton" type="bouton"> Go </button>
 
 </div>
+</fieldset>
 
+<fieldset>
+<legend>Que voulez vous afficher</legend>    
+
+<input type ="checkbox" name = "Debit" id = "Debit" /><label for="Debit">Debit</label>
+<input type ="checkbox" name = "Moyenne Interanuelle" id = "Moyenne Interanuelle" /><label for="Moyenne Interanuelle">Moyenne Interanuelle</label>
+<input type ="checkbox" name = "Valeur faible" id = "Valeur faible" /><label for="Valeur faible">Valeur faible</label>
+
+</fieldset>
+</form>
 
 <div id="reponse">
 	<p></p>
-	<img width="80%" src="" />
+	<img width="100%" src="" />
 	</div>
 
 </body>
