@@ -167,7 +167,7 @@
 <legend>Que voulez vous afficher ?</legend>
 
 <input type ="checkbox" name = "Debit" id = "Debit" /><label for="Debit">Debit</label>
-<input type ="checkbox" name = "Moyenne Interanuelle" id = "Moyenne_Interanuelle" /><label for="Moyenne Interanuelle">Moyenne Interanuelle</label>
+<input type ="checkbox" name = "Moyenne Interanuelle" id = "Moyenne_Interanuelle" value= /><label for="Moyenne Interanuelle">Moyenne Interanuelle</label>
 <input type ="checkbox" name = "Valeur faible" id = "Valeur_faible" /><label for="Valeur faible">Valeur faible</label>
 
 </fieldset>
@@ -226,6 +226,7 @@ function load_data () {
         .bindPopup(data[n].nom);
         marke.idreg=data[n].cd;   // propriété personnalisée ajouté au marqueur
         marke.dataIsAv=data[n].datAv;
+				marke.nom=data[n].nom;
         marke.addEventListener('click',OnMarkerClick);
 
 	    }
@@ -248,6 +249,7 @@ dataIsAv="";
 function OnMarkerClick (e) {
   stationID=e.target.idreg;
 	dataIsAv=e.target.dataIsAv;
+	nomStat=e.target.nom;
 	document.querySelector('#reponse img')
 	.scrollIntoView({ behavior: 'smooth' });
 }
@@ -265,19 +267,30 @@ function Valider(e){
 				var data = JSON.parse(this.responseText)
 				image.src = data.img;
 				image.alt = data.title;
-				legende.innerHTML = data.title;
-				legende.innerHTML=stationID;
+				legende.innerHTML = nomStat;
+		//		legende.innerHTML=stationID;
 			}else{
 				image.src = graphiqueSource;
-				legende.innerHTML = "On n'a pas les données mais on a des galettes"
+				legende.innerHTML = "Données manquantes"
 			}
 
 		};
 		var anD="/2018", moisD="/01",jourD="/02";
 		var anF="/2018", moisF="/01",jourF="/15";
+		var typeGraphe="/ /";
+		var checkDeb = document.querySelector('#Debit').checked;
+		var checkMoy= document.querySelector('#Moyenne_Interanuelle').checked;
+		var checkFaible = document.querySelector('#Valeur_faible').checked;
 
+		if(checkDeb && checkMoy){
+			typeGraphe="/debits_moyennes/";
+		}else if(checkDeb){
+			typeGraphe="/debits/";
+		}else if(checkMoy){
+			typeGraphe="/moyennes/";
+		}
 
-		chaine='/debits_moyennes/'+stationID+anD+moisD+jourD+anF+moisF+jourF;
+		chaine=typeGraphe+stationID+anD+moisD+jourD+anF+moisF+jourF;
 
 		xhr.open('GET',chaine,true);  // on récupère la courbe par un appel au serveur
 		xhr.send();
