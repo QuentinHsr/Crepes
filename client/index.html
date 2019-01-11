@@ -237,7 +237,7 @@ function load_data () {
 }
 
 function AfficheAv(e) {
-    document.querySelector('#reponse p').innerHTML=e.target.dataIsAv;
+    document.querySelector('#reponse p').innerHTML=stationID;
 }
 
 
@@ -258,14 +258,15 @@ function Valider(e){
 	//window.scrollBy(0,-1000);
 
 	var xhr = new XMLHttpRequest();
-	//var image =  document.querySelector('#reponse img'),
-	//      legende = document.querySelector('#reponse p');
+	var image =  document.querySelector('#reponse img'),
+	      legende = document.querySelector('#reponse p');
 	xhr.onload = function() {   // fonction callback
 			if(dataIsAv){
 				var data = JSON.parse(this.responseText)
 				image.src = data.img;
 				image.alt = data.title;
 				legende.innerHTML = data.title;
+				legende.innerHTML=stationID;
 			}else{
 				image.src = graphiqueSource;
 				legende.innerHTML = "On n'a pas les données mais on a des galettes"
