@@ -188,6 +188,9 @@
 </footer>
 
 <script>
+//variables globales
+graphiqueSource= "images/cadre.png";
+
 // Creation d'une carte dans la balise div "map", et positionne la vue sur un point donné et un niveau de zoom
 var map = L.map('map').setView([48.15,-3], 7.5);
 // Ajout d'une couche de dalles OpenStreetMap
@@ -227,11 +230,17 @@ function load_data () {
     };
     xhr.open('GET','/stations',true);
     xhr.send();
+		document.querySelector('#reponse img').src=graphiqueSource;
+
 }
 
 function AfficheAv(e) {
     document.querySelector('#reponse p').innerHTML=e.target.dataIsAv;
 }
+
+
+
+station="";
 
 function OnMarkerClick (e) {
   var xhr = new XMLHttpRequest();
@@ -240,11 +249,12 @@ function OnMarkerClick (e) {
 	xhr.onload = function() {   // fonction callback
       if(e.target.dataIsAv){
         var data = JSON.parse(this.responseText)
-        image.src = data.img;
-        image.alt = data.title;
+        //image.src = data.img;
+
+				image.alt = data.title;
         legende.innerHTML = data.title;
       }else{
-        image.src = "images/galette.jpg"
+        image.src = graphiqueSource;
         legende.innerHTML = "On n'a pas les données mais on a des galettes"
       }
 			document.querySelector('#reponse img').scrollIntoView({ behavior: 'smooth' });
