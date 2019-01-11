@@ -137,7 +137,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     for i in range(len(r)):
         if (r[i][3],) in ac:
             r[i]+=(1,)
-            print(r[i][3])
+          #  print(r[i][3])
     
         else:
             r[i]+=(0,)
@@ -159,8 +159,8 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     moisF=self.path_info[6]
     jourF=self.path_info[7]
     
-    d1='{}-{}-{}'.format(anD,moisD,jourD) 
-    d2='{}-{}-{}'.format(anF,moisF,jourF) 
+    d1="'{}-{}-{}'".format(anD,moisD,jourD) 
+    d2="'{}-{}-{}'".format(anF,moisF,jourF) 
     
     if len(self.path_info) <= 1 or self.path_info[1] == '' :   # pas de paramètre => liste par défaut
         # Definition des régions et des couleurs de tracé
@@ -194,10 +194,13 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         ax.xaxis.set_tick_params(labelsize=10)
         ax.xaxis.set_label_text("Date")
         ax.yaxis.set_label_text("débit")
-                
+                 # légendes
+        plt.legend(loc='lower left')
+        plt.title("Débits de l'eau débit de lait",fontsize=16)
         # boucle sur les régions
         for l in (station) :
-            c.execute("SELECT debit_donnee_validee_m3,date FROM (SELECT debit_donnee_validee_m3,date FROM hydro_historique  WHERE code_hydro=?) WHERE date BETWEEN {} and {} ORDER BY date".format(d1,d2),l[:1])  # ou (l[0],)
+            code='"'+l[0]+'"'
+            c.execute("SELECT debit_donnee_validee_m3,date FROM (SELECT debit_donnee_validee_m3,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
             r = c.fetchall()
             # recupération de la date (colonne 2) et transformation dans le format de pyplot
             x = [pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r if not a[0] == '']
@@ -221,9 +224,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         headers = [('Content-Type','application/json')];
         self.send(body,headers)
       
-         # légendes
-        plt.legend(loc='lower left')
-        plt.title("Débits de l'eau débit de lait",fontsize=16)
+
         
         
     if moyenne:
@@ -240,10 +241,13 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         ax.xaxis.set_tick_params(labelsize=10)
         ax.xaxis.set_label_text("Date")
         ax.yaxis.set_label_text("moyenne_interannuelle")
-        
+                 # légendes
+        plt.legend(loc='lower left')
+        plt.title("Débits de l'eau débit de lait",fontsize=16)
          # boucle sur les régions
         for l in (station) :
-            c.execute("SELECT moyenne_interannuelle,date FROM (SELECT moyenne_interannuelle,date FROM hydro_historique  WHERE code_hydro=?) WHERE date BETWEEN {} and {} ORDER BY date".format(d1,d2),l[:1])  # ou (l[0],)
+            code='"'+l[0]+'"'
+            c.execute("SELECT moyenne_interannuelle,date FROM (SELECT moyenne_interannuelle,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
             r = c.fetchall()
             # recupération de la date (colonne 2) et transformation dans le format de pyplot
             x = [pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r if not a[0] == '']
@@ -267,10 +271,6 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         self.send(body,headers)
       
       
-          # légendes
-        plt.legend(loc='lower left')
-        plt.title("Moyenne interannuelle",fontsize=16)
-        
     if debit_moyenne:
                # configuration du tracé des moyennes
         fig3= plt.figure(figsize=(18,6))
@@ -278,16 +278,19 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         #ax.set_ylim(bottom=0,top=10)
         ax.grid(which='major', color='#888888', linestyle='-')
         ax.grid(which='minor',axis='x', color='#888888', linestyle=':')
-        ax.xaxis.set_major_locator(pltd.YearLocator())
-        ax.xaxis.set_minor_locator(pltd.MonthLocator())
-        ax.xaxis.set_major_formatter(pltd.DateFormatter('%B %Y'))
+#        ax.xaxis.set_major_locator(pltd.YearLocator())
+#        ax.xaxis.set_minor_locator(pltd.MonthLocator())
+#        ax.xaxis.set_major_formatter(pltd.DateFormatter('%B %Y'))
         ax.xaxis.set_tick_params(labelsize=10)
         ax.xaxis.set_label_text("Date")
         ax.yaxis.set_label_text("moyenne_interannuelle_et_debit")
-        
+                 # légendes
+        plt.legend(loc='lower left')
+        plt.title("Débits de l'eau débit de lait",fontsize=16)
          # boucle sur les régions
         for l in (station) :
-            c.execute("SELECT debit_donnee_validee_m3,date FROM (SELECT debit_donnee_validee_m3,date FROM hydro_historique  WHERE code_hydro=?) WHERE date BETWEEN {} and {} ORDER BY date".format(d1,d2),l[:1])  # ou (l[0],)
+            code='"'+l[0]+'"'
+            c.execute("SELECT debit_donnee_validee_m3,date FROM (SELECT debit_donnee_validee_m3,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
             r1 = c.fetchall()
             # recupération de la date (colonne 2) et transformation dans le format de pyplot
             x1 = [pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r1 if not a[0] == '']
@@ -295,7 +298,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             y = [float(a[0]) for a in r1 if not a[0] == '']
             
         
-            c.execute("SELECT moyenne_interannuelle,date FROM (SELECT moyenne_interannuelle,date FROM hydro_historique  WHERE code_hydro=?) WHERE date BETWEEN {} and {} ORDER BY date".format(d1,d2),l[:1])  # ou (l[0],)
+            c.execute("SELECT moyenne_interannuelle,date FROM (SELECT moyenne_interannuelle,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
             r2 = c.fetchall()
             x2=[pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r2 if not a[0] == '']
             # récupération des débits (colonne 8)
@@ -319,9 +322,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         self.send(body,headers)
       
       
-          # légendes
-        plt.legend(loc='lower left')
-        plt.title("Moyenne interannuelle et débit",fontsize=16)
+          
       
   # On envoie les entêtes et le corps fourni
   #
