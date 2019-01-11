@@ -26,7 +26,7 @@
 
 
 
-<h2>Gestion des graphiques</h2>
+<h2 id="Gestion">Gestion des graphiques</h2>
 <form>
 
 <fieldset>
@@ -35,8 +35,8 @@
 <div id = "Datedebut">
 
 <legend>Entrer la date de début</legend>
-<select name="Jourdebut">Jour
-    <option value="None" selected="selected">Jour</option>
+<select id="Jourdebut">Jour
+    <option value="01" selected="selected">Jour</option>
     <option value="01">01</option>
     <option value="02">02</option>
     <option value="03">03</option>
@@ -71,8 +71,8 @@
 
 </select>
 
-<select name="Moisdebut">Mois
-    <option value="None" selected="selected">Mois</option>
+<select id="Moisdebut">Mois
+    <option value="09" selected="selected">Mois</option>
     <option value="01">Janvier</option>
     <option value="02">Fevrier</option>
     <option value="03">Mars</option>
@@ -87,8 +87,8 @@
     <option value="12">Decembre</option>
 </select>
 
-<select name="Anneedebut">Année
-    <option value="None" selected="selected">Année</option>
+<select id="Anneedebut">Année
+    <option value="2017" selected="selected">Année</option>
     <option value="2017">2017</option>
     <option value="2018">2018</option>
 
@@ -99,8 +99,8 @@
 <div id='Datefin'>
 
 <legend>Entrer la date de fin</legend>
-<select name="Jourfin" id="Jourfin">Jour
-    <option value="None" selected="selected">Jour</option>
+<select id="Jourfin" id="Jourfin">Jour
+    <option value="01" selected="selected">Jour</option>
     <option value="01">01</option>
     <option value="02">02</option>
     <option value="03">03</option>
@@ -135,8 +135,8 @@
 
 </select>
 
-<select name="Moisfin">Mois
-    <option value="None" selected="selected">Mois</option>
+<select id="Moisfin">Mois
+    <option value="09" selected="selected">Mois</option>
     <option value="01">Janvier</option>
     <option value="02">Fevrier</option>
     <option value="03">Mars</option>
@@ -151,9 +151,8 @@
     <option value="12">Décembre</option>
 </select>
 
-<select name="Anneefin">Année
-    <option value="None" selected="selected">Année</option>
-
+<select id="Anneefin">Année
+    <option value="2018" selected="selected">Année</option>
     <option value="2017">2017</option>
     <option value="2018">2018</option>
 </select>
@@ -250,7 +249,7 @@ function OnMarkerClick (e) {
   stationID=e.target.idreg;
 	dataIsAv=e.target.dataIsAv;
 	nomStat=e.target.nom;
-	document.querySelector('#reponse img')
+	document.querySelector('#Gestion')
 	.scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -271,12 +270,16 @@ function Valider(e){
 		//		legende.innerHTML=stationID;
 			}else{
 				image.src = graphiqueSource;
-				legende.innerHTML = "Données manquantes"
+				legende.innerHTML = "Données manquantes";
 			}
 
 		};
-		var anD="/2018", moisD="/01",jourD="/02";
-		var anF="/2018", moisF="/01",jourF="/15";
+		var anD='/'+document.querySelector('#Anneedebut').value;
+		var moisD='/'+document.querySelector('#Moisdebut').value;
+		var jourD='/'+document.querySelector('#Jourdebut').value;
+		var anF='/'+document.querySelector('#Anneefin').value;
+		var moisF='/'+document.querySelector('#Moisfin').value;
+		var jourF='/'+document.querySelector('#Jourfin').value;
 		var typeGraphe="/ /";
 		var checkDeb = document.querySelector('#Debit').checked;
 		var checkMoy= document.querySelector('#Moyenne_Interanuelle').checked;

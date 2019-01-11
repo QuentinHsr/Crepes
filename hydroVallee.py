@@ -211,7 +211,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             
     
         # génération de la courbe de débit dans un fichier PNG
-        fichier1 = 'courbes/debits_'+self.path_info[1] +'.png'
+        fichier1 = 'courbes/debits_'+self.path_info[1]+d1+d2+'.png'
         plt.savefig('client/{}'.format(fichier1))
         plt.close()
         
@@ -257,7 +257,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             plt.plot(x,y,linewidth=1, linestyle='-', marker='o', color=l[1], label=l[0])
         
         # génération de la courbe de la moyenne dans un fichier PNG
-        fichier2 = 'courbes/moyenne'+self.path_info[1] +'.png'
+        fichier2 = 'courbes/moyenne'+self.path_info[1]+d1+d2+'.png'
         plt.savefig('client/{}'.format(fichier2))
         plt.close()
     
@@ -308,7 +308,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             plt.plot(x2,z,linewidth=1,linestyle='-',marker='o',label=l[0])
         
         # génération de la courbe de la moyenne dans un fichier PNG
-        fichier3 = 'courbes/debitmoyenne'+self.path_info[1] +'.png'
+        fichier3 = 'courbes/debitmoyenne'+self.path_info[1]+d1+d2+'.png'
         plt.savefig('client/{}'.format(fichier3))
         plt.close()
     
