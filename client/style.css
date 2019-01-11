@@ -1,8 +1,8 @@
 ﻿
 /* bandeau de titre */
-h1 { 
+h1 {
   color: white;
-  box-shadow: none; 
+  box-shadow: none;
   background-color: rgb(33,33,33);
   border-top: 4px solid rgb(33,33,33);
   border-bottom: 4px solid rgb(33,33,33);
@@ -36,7 +36,7 @@ h2 {
 }
 footer
 {
-	
+
 }
 
 /* fond de page */
@@ -52,7 +52,7 @@ body {
 }
 
 #Datedebut, #Datefin, #Debit, #Moyenne_Interanuelle, #Valeur_faible {
-  font-size:25; 
+  font-size:25;
   text-align:center;
   display:inline-block;
   margin-right:20px;
@@ -70,13 +70,13 @@ form {
 }
 
 #reponse
-{ 
+{
 	text-align:center;
 	margin:auto;
 	justify-content : center;
 }
 
-#map { 
+#map {
   height:60%;
   width: 92%;
   border-top: 4px solid rgb(33,33,33);
@@ -90,6 +90,8 @@ form {
 {
 	padding:10px;
 	border:none;
+  justify-content: center;
+  text-align: center;
 }
 
 #valider
@@ -116,7 +118,7 @@ form {
 footer
 {
   color: white;
-  box-shadow: none; 
+  box-shadow: none;
   background-color: rgb(33,33,33);
   border-top: 4px solid rgb(33,33,33);
   border-bottom: 4px solid rgb(33,33,33);
