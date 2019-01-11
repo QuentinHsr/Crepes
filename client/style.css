@@ -25,7 +25,10 @@ h2 {
   margin-right:auto;
   width: 300px;
 }
-
+footer
+{
+	
+}
 
 /* fond de page */
 body {
@@ -39,11 +42,12 @@ body {
 
 }
 
-#Datedebut, #Datefin {
+#Datedebut, #Datefin, #Debit, #Moyenne_Interanuelle, #Valeur_faible {
   font-size:25; 
   text-align:center;
   display:inline-block;
-  margin-right:10px;
+  margin-right:20px;
+  margin-left:20px;
  }
 
 #bouton{
@@ -51,7 +55,7 @@ body {
   display:inline-block;
 }
 
-#selecteur {
+form {
   justify-content: center;
   text-align: center;
 }
@@ -74,7 +78,7 @@ body {
 }
 
 /* positionnement des champs */
-label { display: block; }
+
 label span { display: inline-block; width: 0em; height: 0em; }
 
 
