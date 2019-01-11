@@ -27,12 +27,19 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
     # On récupère les étapes du chemin d'accès
     self.init_params()
-
+    
     # le chemin d'accès commence par /debit_moyenne
     if self.path_info[0] == 'debits_moyennes':
       self.send_debits_moyennes(False,False,True)
    
-     # le chemin d'accès commence par /debit
+    elif self.path_info[0] == 'stations':
+      self.send_stations()
+      
+     # le chemin d'accès commence par /time
+    elif self.path_info[0] == 'time':
+      self.send_time()    
+      
+      # le chemin d'accès commence par /debit
 
       
     elif self.path_info[0] == 'debits':
