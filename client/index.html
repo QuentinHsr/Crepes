@@ -246,14 +246,14 @@ function OnMarkerClick (e) {
 			document.querySelector('#reponse img').scrollIntoView({ behavior: 'smooth' });
     };
 
-    chaine='/debits_moyennes/'
-    xhr.open('GET',chaine+e.target.idreg,true);  // on récupère la courbe par un appel au serveur
+    chaine='/debits_moyennes/'+e.target.idreg+anD+moisD+jourD+anF+moisF+jourF
+    xhr.open('GET',chaine,true);  // on récupère la courbe par un appel au serveur
     xhr.send();
 }
 
 function Valider(e){
   jourf = document.getElementById('Jourfin').value;
-  document.querySelector('#reponse p').innerHTML=jourf;
+//  document.querySelector('#reponse p').innerHTML=jourf;
 	//window.scrollBy(0,-1000);
 	document.querySelector('h2').scrollIntoView({ behavior: 'smooth' });
 }
