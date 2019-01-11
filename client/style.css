@@ -15,6 +15,15 @@ h1 {
   margin-right:-2%;
 }
 
+/*sous-titre*/
+
+h2 {
+  text-align: center;
+
+  
+}
+
+
 /* fond de page */
 body {
   background-size: 100%;
@@ -23,57 +32,43 @@ body {
   height: 97vh;
   /* pour éviter l'ascenseur */
   box-sizing: border-box;
+  font-family: Century Gothic, sans-serif;
 
 }
-#Datedebut {font-size:30;margin-top:1%; text-align: right; }
-#Datefin{font-size:30;margin-top:2%;text-align:right; }
+#Datedebut, #Datefin {
+  font-size:25; 
+  text-align:center;
+  display:inline-block;
+  margin-right:10px;
+ }
 
-#map { height:50%; width: 60%;
-  float:left; border-top: 4px solid rgb(33,33,33);
+#bouton{
+  text-align:center;
+  display:inline-block;
+}
+
+#selecteur {
+  justify-content: center;
+  text-align: center;
+}
+
+#reponse {font-size:22,color:cyan;}
+
+#map { 
+  height:60%;
+  width: 92%;
+  border-top: 4px solid rgb(33,33,33);
   border-bottom: 4px solid rgb(33,33,33) ;
   border-left: 4px solid rgb(33,33,33);
-  border-right: 4px solid rgb(33,33,33  )}
-
-/* contenu de la page */
-
-/* polices de caractères */
-body { font-family: Century Gothic, sans-serif; }
+  border-right: 4px solid rgb(33,33,33);
+  margin:auto;
+}
 
 /* positionnement des champs */
 label { display: block; }
 label span { display: inline-block; width: 0em; height: 0em; }
 
-/*
-input, textarea {
-  font-family: monospace;
-  padding: 2px 0.5em;
-  width: 5em;
-  font-size: 1.2em;
-  line-height: 1.33em;
-  color: #666;
-  margin-top: 5px;
-}
-.button {
-  border: 3px outset #444;
-  background-color: #888;
-  padding: 5px 0.5em;
-  border-radius: 3px;
-  display: inline-block;
-  margin: 1em 0;
 
-  color: #eee;
-  text-shadow: #000 -1px -1px 0;
-  right: calc(100% - 8em - 3px);
-}
-*/
-/*
-a {
-  text-decoration: none;
-  color: black;
-  cursor: pointer;
-}
-*/
 a.delete:hover {
   color: red;
 }
-#map { height: 450px; width:700px; }
