@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <script src="leaflet.js"> // insertion bibliothèque Leaflet : http://leafletjs.com/ </script>
 
@@ -242,7 +242,7 @@ function OnMarkerClick (e) {
       }
     };
 
-    chaine='/debits/'
+    chaine='/moyennes/'
     xhr.open('GET',chaine+e.target.idreg,true);  // on récupère la courbe par un appel au serveur
     xhr.send();
 }
