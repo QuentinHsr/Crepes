@@ -152,6 +152,15 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
     conn = sqlite3.connect('Crepes.sqlite')
     c = conn.cursor()
+    anD=self.path_info[2]
+    moisD=self.path_info[3]
+    jourD=self.path_info[4]
+    anF=self.path_info[5]
+    moisF=self.path_info[6]
+    jourF=self.path_info[7]
+    
+    d1='{}-{}-{}'.format(anD,moisD,jourD) 
+    d2='{}-{}-{}'.format(anF,moisF,jourF) 
     
     if len(self.path_info) <= 1 or self.path_info[1] == '' :   # pas de paramètre => liste par défaut
         # Definition des régions et des couleurs de tracé
@@ -188,7 +197,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 
         # boucle sur les régions
         for l in (station) :
-            c.execute("SELECT debit_donnee_validee_m3,date FROM 'hydro_historique' WHERE code_hydro=? ORDER BY date",l[:1])  # ou (l[0],)
+            c.execute("SELECT debit_donnee_validee_m3,date FROM 'hydro_historique' WHERE code_hydro=? AND date BETWEEN d1 AND d2 ORDER BY date",l[:1])  # ou (l[0],)
             r = c.fetchall()
             # recupération de la date (colonne 2) et transformation dans le format de pyplot
             x = [pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r if not a[0] == '']
