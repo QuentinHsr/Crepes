@@ -19,7 +19,7 @@ h1 {
 
 h2 {
   text-align: center;
-
+  
   
 }
 
@@ -52,7 +52,12 @@ body {
   text-align: center;
 }
 
-#reponse {font-size:22,color:cyan;}
+#reponse {
+	font-size:22;
+	color:cyan;
+	justify-content : center;
+	
+	}
 
 #map { 
   height:60%;
