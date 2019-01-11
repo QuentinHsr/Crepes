@@ -160,20 +160,22 @@
 
 </div>
 
-<button id="valider" type="bouton" onclick="Valider();"> Valider </button>
-<button id="bouton" type="bouton"> Go </button>
-
 </div>
 </fieldset>
 
 <fieldset>
-<legend>Que voulez vous afficher</legend>
+<legend>Que voulez vous afficher ?</legend>
 
 <input type ="checkbox" name = "Debit" id = "Debit" /><label for="Debit">Debit</label>
 <input type ="checkbox" name = "Moyenne Interanuelle" id = "Moyenne_Interanuelle" /><label for="Moyenne Interanuelle">Moyenne Interanuelle</label>
 <input type ="checkbox" name = "Valeur faible" id = "Valeur_faible" /><label for="Valeur faible">Valeur faible</label>
 
 </fieldset>
+
+<fieldset id="Valider">
+	<button id="valider" type="bouton" onclick="Valider();"> Valider </button>
+</fieldset>
+
 </form>
 
 <div id="reponse">
@@ -188,6 +190,9 @@
 </footer>
 
 <script>
+//variables globales
+graphiqueSource= "images/cadre.png";
+
 // Creation d'une carte dans la balise div "map", et positionne la vue sur un point donné et un niveau de zoom
 var map = L.map('map').setView([48.15,-3], 7.5);
 // Ajout d'une couche de dalles OpenStreetMap
@@ -227,11 +232,17 @@ function load_data () {
     };
     xhr.open('GET','/stations',true);
     xhr.send();
+		document.querySelector('#reponse img').src=graphiqueSource;
+
 }
 
 function AfficheAv(e) {
     document.querySelector('#reponse p').innerHTML=e.target.dataIsAv;
 }
+
+
+
+station="";
 
 function OnMarkerClick (e) {
   var xhr = new XMLHttpRequest();
@@ -240,17 +251,18 @@ function OnMarkerClick (e) {
 	xhr.onload = function() {   // fonction callback
       if(e.target.dataIsAv){
         var data = JSON.parse(this.responseText)
-        image.src = data.img;
-        image.alt = data.title;
+        //image.src = data.img;
+
+				image.alt = data.title;
         legende.innerHTML = data.title;
       }else{
-        image.src = "images/galette.jpg"
+        image.src = graphiqueSource;
         legende.innerHTML = "On n'a pas les données mais on a des galettes"
       }
 			document.querySelector('#reponse img').scrollIntoView({ behavior: 'smooth' });
     };
-		var anD="/2017", moisD="/09",jourD="/02";
-		var anF="/2017", moisF="/09",jourF="/15";
+		var anD="/2018", moisD="/01",jourD="/02";
+		var anF="/2018", moisF="/01",jourF="/15";
 
 
     chaine='/debits_moyennes/'+e.target.idreg+anD+moisD+jourD+anF+moisF+jourF;
