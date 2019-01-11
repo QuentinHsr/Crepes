@@ -42,6 +42,8 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     elif self.path_info[0] == 'moyennes':
       self.send_debits_moyennes(False,True,False)
       
+    
+      
     # ou pas...
     else:
       self.send_static()
