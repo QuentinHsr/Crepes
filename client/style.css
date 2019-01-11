@@ -96,7 +96,22 @@ form {
 {
 	width: 100px;
 	height: 40px;
+	font-family: Century Gothic, sans serif;
+	background-color:rgb(53,53,53);
+	color:white;
+	border-color:rgb(70,70,70);
+	border-radius:5px;
 }
+#valider:active
+{
+	background-color:rgb(93,93,93);
+	outline-style:none;
+}
+#valider:enabled
+{
+	outline-style:none;
+}
+
 
 footer
 {
