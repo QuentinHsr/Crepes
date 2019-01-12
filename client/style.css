@@ -1,141 +1,176 @@
-﻿
-/* bandeau de titre */
-h1 {
-  color: white;
-  box-shadow: none;
-  background-color: rgb(33,33,33);
-  border-top: 4px solid rgb(33,33,33);
-  border-bottom: 4px solid rgb(33,33,33);
-  text-align: center;
-  padding-top : 1.5% ;
-  padding-bottom: 1.5%;
-  margin-top: -1%;
-  margin-left:-2%;
-  margin-right:-2%;
-  font-size: 40px;
+﻿h1 
+{
+color: white;
+box-shadow: none;
+background-color: rgb(33,33,33);
+border-top: 4px solid rgb(33,33,33);
+border-bottom: 4px solid rgb(33,33,33);
+text-align: center;
+padding-top : 1.5% ;
+padding-bottom: 1.5%;
+margin-top: -1%;
+margin-left:-2%;
+margin-right:-2%;
+font-size: 40px;
 }
 
 h1 img
 {
-	width:45px;
-	transform: translateY(6px);
+width:45px;
+transform: translateY(6px);
 
 }
-
-
-/*sous-titre*/
-
 
 h2 {
-  text-align: center;
-  padding: 5px 0.5em 7px;
-  margin-bottom: 20px;
-  margin-left:auto;
-  margin-right:auto;
-  width: 300px;
+text-align: center;
+padding: 5px 0.5em 7px;
+margin-bottom: 20px;
+margin-left:auto;
+margin-right:auto;
+width: 300px;
 }
-footer
+
+body 
 {
-
+background-size: 100%;
+background-repeat: no-repeat;
+background-color: rgba(252,252,252,1);
+height: 97vh;
+box-sizing: border-box;
+font-family: Century Gothic, sans-serif;
 }
 
-/* fond de page */
-body {
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-color: rgba(252,252,252,1);
-  height: 97vh;
-  /* pour éviter l'ascenseur */
-  box-sizing: border-box;
-  font-family: Century Gothic, sans-serif;
-
+#Datedebut, #Datefin, #Debit, #Moyenne_Interanuelle, #Valeur_faible 
+{
+font-size:25;
+text-align:center;
+display:inline-block;
+margin-right:20px;
+margin-left:20px;
 }
 
-#Datedebut, #Datefin, #Debit, #Moyenne_Interanuelle, #Valeur_faible {
-  font-size:25;
-  text-align:center;
-  display:inline-block;
-  margin-right:20px;
-  margin-left:20px;
- }
-
-#bouton{
-  text-align:center;
-  display:inline-block;
+#bouton
+{
+text-align:center;
+display:inline-block;
 }
 
 form {
-  justify-content: center;
-  text-align: center;
-/*  width:80%;*/
+justify-content: center;
+text-align: center;
 }
 
 #reponse
 {
-	text-align:center;
-	margin:auto;
-	justify-content : center;
+text-align:center;
+margin:auto;
+justify-content : center;
 }
 
 #map {
-  height:60%;
-  width: 92%;
-  border-top: 4px solid rgb(33,33,33);
-  border-bottom: 4px solid rgb(33,33,33) ;
-  border-left: 4px solid rgb(33,33,33);
-  border-right: 4px solid rgb(33,33,33);
-  margin:auto;
+height:60%;
+width: 92%;
+border-top: 4px solid rgb(33,33,33);
+border-bottom: 4px solid rgb(33,33,33) ;
+border-left: 4px solid rgb(33,33,33);
+border-right: 4px solid rgb(33,33,33);
+margin:auto;
 }
 
 #Valider
 {
-	padding:10px;
-	border:none;
-  justify-content: center;
-  text-align: center;
+padding:10px;
+border:none;
+justify-content: center;
+text-align: center;
 }
 
 #valider
 {
-	width: 100px;
-	height: 40px;
-	font-family: Century Gothic, sans serif;
-	background-color:rgb(53,53,53);
-	color:white;
-	border-color:rgb(70,70,70);
-	border-radius:5px;
-}
-#valider:active
-{
-	background-color:rgb(93,93,93);
-	outline-style:none;
-}
-#valider:enabled
-{
-	outline-style:none;
+width: 100px;
+height: 40px;
+font-family: Century Gothic, sans serif;
+background-color:rgb(53,53,53);
+color:white;
+border-color:rgb(70,70,70);
+border-radius:5px;
 }
 
+#valider:active
+{
+background-color:rgb(93,93,93);
+outline-style:none;
+}
+
+#valider:enabled
+{
+outline-style:none;
+}
 
 footer
 {
-  color: white;
-  box-shadow: none;
-  background-color: rgb(33,33,33);
-  border-top: 4px solid rgb(33,33,33);
-  border-bottom: 4px solid rgb(33,33,33);
-  text-align: center;
-  padding-top : 1.5% ;
-  padding-bottom: 1.5%;
-  margin-top: 10px;
-  margin-left:-2%;
-  margin-right:-2%;
+color: white;
+box-shadow: none;
+background-color: rgb(33,33,33);
+border-top: 4px solid rgb(33,33,33);
+border-bottom: 4px solid rgb(33,33,33);
+text-align: center;
+padding-top : 1.5% ;
+padding-bottom: 1.5%;
+margin-top: 10px;
+margin-left:-2%;
+margin-right:-2%;
 }
 
-/* positionnement des champs */
+label span 
+{ 
+display: inline-block; 
+width: 0em; height: 
+0em; 
+}
 
-label span { display: inline-block; width: 0em; height: 0em; }
 
+a.delete:hover 
+{
+color: red;
+}
 
-a.delete:hover {
-  color: red;
+a#cRetour{
+border-radius:3px;
+padding:10px;
+font-size:15px;
+text-align:center;
+color:#fff;
+background:rgba(0, 0, 0, 0.25);
+position:fixed;
+right:20px;
+opacity:1;
+z-index:99999;
+transition:all ease-in 0.2s;
+backface-visibility: hidden;
+-webkit-backface-visibility: hidden;
+text-decoration: none;
+}
+a#cRetour:before
+{ 
+content: "\25b2"; 
+}
+
+a#cRetour:hover
+{
+background:rgba(0, 0, 0, 1);
+transition:all ease-in 0.2s;
+}
+
+a#cRetour.cInvisible
+{
+bottom:-35px;
+opacity:0;
+transition:all ease-in 0.5s;
+}
+
+a#cRetour.cVisible
+{
+bottom:20px;
+opacity:1;
 }
