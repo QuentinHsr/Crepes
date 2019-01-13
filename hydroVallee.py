@@ -305,7 +305,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             z = [float(b[0]) for b in r2 if not b[0] == '']
             # tracé de la courbe
             plt.plot(x1,y,linewidth=1, linestyle='-', marker='o', label=l[0])
-            plt.plot(x2,z,linewidth=1,linestyle='-',marker='o',label=l[0])
+            plt.plot(x2,z,linewidth=1,linestyle='-',label=l[0])
         
         # génération de la courbe de la moyenne dans un fichier PNG
         fichier3 = 'courbes/debitmoyenne'+self.path_info[1]+d1+d2+'.png'
