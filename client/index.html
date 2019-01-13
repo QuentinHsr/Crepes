@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 
 
-<body onload="load_data()">  <!-- Récupération des données avec le chargement de la page -->
+<body id=body onload="load_data()">  <!-- Récupération des données avec le chargement de la page -->
 
 
 <h1>
@@ -163,7 +163,7 @@
 <fieldset>
 <legend>Que voulez vous afficher ?</legend>
 
-<input type ="checkbox" name = "Debit" id = "Debit" /><label for="Debit">Debit</label>
+<input type ="checkbox" name = "Debit" id = "Debit" checked/><label for="Debit">Debit</label>
 <input type ="checkbox" name = "Moyenne Interanuelle" id = "Moyenne_Interanuelle" value= /><label for="Moyenne Interanuelle">Moyenne Interanuelle</label>
 <input type ="checkbox" name = "Valeur faible" id = "Valeur_faible" /><label for="Valeur faible">Valeur faible</label>
 
@@ -300,4 +300,21 @@ function Valider(e){
 		xhr.send();
 
 }
+
+
+// Get the input field
+var input = document.getElementById("body");
+
+// Execute a function when the user releases a key on the keyboard
+input.addEventListener("keyup", function(event) {
+  // Cancel the default action, if needed
+  event.preventDefault();
+  // Number 13 is the "Enter" key on the keyboard
+  if (event.keyCode === 13) {
+    // Trigger the button element with a click
+    document.getElementById("valider").click();
+  }
+});
+
+
 </script>
