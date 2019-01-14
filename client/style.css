@@ -1,4 +1,4 @@
-﻿h1 
+﻿h1
 {
 color: white;
 box-shadow: none;
@@ -30,7 +30,7 @@ margin-right:auto;
 width: 300px;
 }
 
-body 
+body
 {
 background-size: 100%;
 background-repeat: no-repeat;
@@ -40,7 +40,7 @@ box-sizing: border-box;
 font-family: Century Gothic, sans-serif;
 }
 
-#Datedebut, #Datefin, #Debit, #Moyenne_Interanuelle, #Valeur_faible 
+#Datedebut, #Datefin, #Debit, #Moyenne_Interanuelle, #Valeur_faible
 {
 font-size:25;
 text-align:center;
@@ -85,6 +85,42 @@ justify-content: center;
 text-align: center;
 }
 
+#Gestion
+{
+
+  text-align: center;
+
+  margin-left:auto;
+  margin-right:auto;
+
+}
+
+
+#gestion
+{
+  text-align: center;
+  margin:auto;
+  justify-content : center;
+  padding: 5px 0.5em 7px;
+  margin-bottom: 20px;
+  width: 300px;
+  background-color:rgba(252,252,252,1);
+  color:black;
+  border-color:rgb(70,70,70);
+  border-radius:5px;
+}
+
+#gestion:active
+{
+background-color:rgb(93,93,93);
+outline-style:none;
+}
+
+#gestion:enabled
+{
+outline-style:none;
+}
+
 #valider
 {
 width: 100px;
@@ -122,15 +158,15 @@ margin-left:-2%;
 margin-right:-2%;
 }
 
-label span 
-{ 
-display: inline-block; 
-width: 0em; height: 
-0em; 
+label span
+{
+display: inline-block;
+width: 0em; height:
+0em;
 }
 
 
-a.delete:hover 
+a.delete:hover
 {
 color: red;
 }
@@ -152,8 +188,8 @@ backface-visibility: hidden;
 text-decoration: none;
 }
 a#cRetour:before
-{ 
-content: "\25b2"; 
+{
+content: "\25b2";
 }
 
 a#cRetour:hover

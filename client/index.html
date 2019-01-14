@@ -21,11 +21,14 @@
 				<h2>Carte de la Bretagne</h2>
 				<div id="map"></div>
 
-				<div>
-				</div>
+				<div id="Gestion">
 
-				<h2 id="Gestion">Gestion des graphiques</h2>
-				<form method="post">
+
+		  	<h2 >Gestion des graphiques</h2>
+				<button id="gestion" type="bouton" onclick="scrollG();">GO</button>
+			  </div>
+
+				<form id="form" method="post">
 
 					<fieldset>
 						<legend>Quelle periode ?</legend>
@@ -258,9 +261,14 @@
 					nomStat=e.target.nom;
 					document.querySelector('#reponse p').innerHTML=nomStat;
 					document.querySelector('#reponse img').src = graphiqueSource;
-					document.querySelector('#Gestion')
-					.scrollIntoView({ behavior: 'smooth' });
 
+
+					}
+
+					function scrollG(e)
+					{
+						document.querySelector('#form')
+						.scrollIntoView({ behavior: 'smooth' });
 					}
 
 					function Valider(e){
