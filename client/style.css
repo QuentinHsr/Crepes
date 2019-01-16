@@ -177,11 +177,13 @@ color: red;
 
 a#cRetour{
 border-radius:3px;
+border-style:solid;
+border-color:rgb(50,50,50); 
 padding:10px;
 font-size:15px;
 text-align:center;
-color:#fff;
-background:rgba(0, 0, 0, 0.25);
+color: rgb(0,0,0);
+background:rgba(200, 200, 200, 0.5);
 position:fixed;
 right:20px;
 opacity:1;
@@ -211,6 +213,6 @@ transition:all ease-in 0.5s;
 
 a#cRetour.cVisible
 {
-bottom:20px;
+bottom:15px;
 opacity:1;
 }
