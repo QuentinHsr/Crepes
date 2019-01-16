@@ -29,30 +29,21 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
     # On récupère les étapes du chemin d'accès
     self.init_params()
     
-    # le chemin d'accès commence par /debit_moyenne
-    if self.path_info[0] == 'debits_moyennes':
-      self.send_debits_moyennes(False,False,True)
    
-    elif self.path_info[0] == 'stations':
+   
+    if self.path_info[0] == 'stations':
       self.send_stations()
       
      # le chemin d'accès commence par /time
     elif self.path_info[0] == 'time':
       self.send_time()    
       
-      # le chemin d'accès commence par /debit
-
-      
-    elif self.path_info[0] == 'debits':
-      self.send_debits_moyennes(True,False,False)
-      
-    # le chemin d'accès commence par /moyennes
-    elif self.path_info[0] == 'moyennes':
-      self.send_debits_moyennes(False,True,False)
-      
-    # ou pas...
+     
     else:
+      self.send_courbes()
+    
       self.send_static()
+
 
   #
   # On surcharge la méthode qui traite les requêtes HEAD
@@ -149,125 +140,65 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
 
             
-  def send_debits_moyennes(self,debit,moyenne,debit_moyenne):
+    def send_courbes(self):
 
-   
-    
-    conn = sqlite3.connect('Crepes.sqlite')
-    c = conn.cursor()
-    anD=self.path_info[2]
-    moisD=self.path_info[3]
-    jourD=self.path_info[4]
-    anF=self.path_info[5]
-    moisF=self.path_info[6]
-    jourF=self.path_info[7]
-    
-    d1="'{}-{}-{}'".format(anD,moisD,jourD) 
-    d2="'{}-{}-{}'".format(anF,moisF,jourF) 
-    
-    if len(self.path_info) <= 1 or self.path_info[1] == '' :   # pas de paramètre => liste par défaut
-        # Definition des régions et des couleurs de tracé
-#        regions = [("Rhône Alpes","blue"), ("Auvergne","green"), ("Auvergne-Rhône Alpes","cyan"), ('Bourgogne',"red"), 
-#                   ('Franche Comté','orange'), ('Bourgogne-Franche Comté','olive') ]
-        station = [("J1711710","blue")]
-        self.path_info[1]="inconnu"
-    else:
-        # On teste que la région demandée existe bien
-        c.execute("SELECT code_hydro FROM 'hydro_historique'")
-        codes = c.fetchall()
-        if (self.path_info[1],) in codes:   # Rq: codes est une liste de tuples
-          station = [(self.path_info[1],"blue")]
+        conn = sqlite3.connect('Crepes.sqlite')
+        c = conn.cursor()
+        anD=self.path_info[5]
+        moisD=self.path_info[6]
+        jourD=self.path_info[7]
+        anF=self.path_info[8]
+        moisF=self.path_info[9]
+        jourF=self.path_info[10]
+        
+        d1="'{}-{}-{}'".format(anD,moisD,jourD) 
+        d2="'{}-{}-{}'".format(anF,moisF,jourF) 
+        
+        if len(self.path_info) <= 1 or self.path_info[1] == '' :   # pas de paramètre => liste par défaut
+            # Definition des régions et des couleurs de tracé
+    #        regions = [("Rhône Alpes","blue"), ("Auvergne","green"), ("Auvergne-Rhône Alpes","cyan"), ('Bourgogne',"red"), 
+    #                   ('Franche Comté','orange'), ('Bourgogne-Franche Comté','olive') ]
+            station = [("J1711710","blue")]
+            self.path_info[1]="inconnu"
         else:
-            print ('Erreur nom')
-            self.send_error(404)    # Station non trouvée -> erreur 404
-            return None
-   
-    if debit:
-        
-        
-        fichier1 = 'courbes/debits_'+self.path_info[1]+anD+moisD+jourD+anF+moisF+jourF+'.png'
-        
-        #Si le fichier est déjà présent, on ne recrée pas de nouveau graphe
-        
-        if os.path.isfile("client/"+fichier1):
-            print("Image trouvée")
-        else:
-            
-        
-            # configuration du tracé des débits
+            # On teste que la région demandée existe bien
+            c.execute("SELECT code_hydro FROM 'hydro_historique'")
+            codes = c.fetchall()
+            if (self.path_info[1],) in codes:   # Rq: codes est une liste de tuples
+              station = [(self.path_info[1],"blue")]
+            else:
+                print ('Erreur nom')
+                self.send_error(404)    # Station non trouvée -> erreur 404
+                return None
+        debit=bool(self.path_info[1])
+        moyenne=bool(self.path_info[2])
+        valeur_faible=bool(self.path_info[3])
+        valeur_forte=bool(self.path_info[4])
+    
+       # boucle sur les régions
+        for l in (station) :
+            # configuration du tracé
             fig1 = plt.figure(figsize=(18,6))
             ax = fig1.add_subplot(111)
             #ax.set_ylim(bottom=0,top=10)
             ax.grid(which='major', color='#888888', linestyle='-')
             ax.grid(which='minor',axis='x', color='#888888', linestyle=':')
-#            ax.xaxis.set_major_locator(pltd.YearLocator())
-#            ax.xaxis.set_minor_locator(pltd.MonthLocator())
+            ax.xaxis.set_major_locator(pltd.YearLocator())
+            ax.xaxis.set_minor_locator(pltd.MonthLocator())
             ax.xaxis.set_major_formatter(pltd.DateFormatter('%B %Y'))
             ax.xaxis.set_tick_params(labelsize=10)
             ax.xaxis.set_label_text("Date")
-            ax.yaxis.set_label_text("Débit (en m3/s)")
-                     # légendes
-            plt.legend(loc='lower left')
-            plt.title("Débits journaliers pour la station sélectionnée",fontsize=16)
-            # boucle sur les régions
-            for l in (station) :
-                code='"'+l[0]+'"'
-                c.execute("SELECT debit_donnee_validee_m3,date FROM (SELECT debit_donnee_validee_m3,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
-                r = c.fetchall()
-                # recupération de la date (colonne 2) et transformation dans le format de pyplot
-                x = [pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r if not a[0] == '']
-                # récupération des débits (colonne 8)
-                y = [float(a[0]) for a in r if not a[0] == '']
-                # tracé de la courbe
-                plt.plot(x,y,linewidth=1, linestyle='-', marker='o', color=l[1], label=l[0])
+            
+            if debit:
+                l='debit (m^3/s) '
+                titre='Debit pour la station sélectionnée'
+                ax.yaxis.set_label_text(l)
+                plt.legend(loc='lower left')
+                plt.title(titre,fontsize=16)
                 
-        
-            # génération de la courbe de débit dans un fichier PNG
             
-            plt.savefig('client/{}'.format(fichier1))
-            plt.close()
-            
-         
-        
-        #html = '<img src="/{}?{}" alt="ponctualite {}" width="100%">'.format(fichier,self.date_time_string(),self.path)
-        body = json.dumps({
-                'title': 'Debit Station '+self.path_info[1], \
-                'img': '/'+fichier1 \
-                 });
-        # on envoie
-        headers = [('Content-Type','application/json')];
-        self.send(body,headers)
-      
-
-        
-        
-    if moyenne:
-        
-        fichier2 = 'courbes/moyenne'+self.path_info[1]+anD+moisD+jourD+anF+moisF+jourF+'.png'
-        #Si le fichier est déjà présent, on ne recrée pas de nouveau graphe
-        if os.path.isfile("client/"+fichier2):
-            print("Image trouvée")
-        else:
-   
-            # configuration du tracé des moyennes
-            fig2= plt.figure(figsize=(18,6))
-            ax = fig2.add_subplot(111)
-            #ax.set_ylim(bottom=0,top=10)
-            ax.grid(which='major', color='#888888', linestyle='-')
-            ax.grid(which='minor',axis='x', color='#888888', linestyle=':')
-#            ax.xaxis.set_major_locator(pltd.YearLocator())
-#            ax.xaxis.set_minor_locator(pltd.MonthLocator())
-            ax.xaxis.set_major_formatter(pltd.DateFormatter('%B %Y'))
-            ax.xaxis.set_tick_params(labelsize=10)
-            ax.xaxis.set_label_text("Date")
-            ax.yaxis.set_label_text("moyenne_interannuelle (en m3/s)")
-                     # légendes
-            plt.legend(loc='lower left')
-            plt.title("Moyennes interannuelles pour la station sélectionnée",fontsize=16)
-             # boucle sur les régions
-            for l in (station) :
                 code='"'+l[0]+'"'
-                c.execute("SELECT moyenne_interannuelle,date FROM (SELECT moyenne_interannuelle,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
+                c.execute("SELECT  debit_donnee_validee_m3,date FROM (SELECT  debit_donnee_validee_m3,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
                 r = c.fetchall()
                 # recupération de la date (colonne 2) et transformation dans le format de pyplot
                 x = [pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r if not a[0] == '']
@@ -275,56 +206,13 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 y = [float(a[0]) for a in r if not a[0] == '']
                 # tracé de la courbe
                 plt.plot(x,y,linewidth=1, linestyle='-', marker='o', color=l[1], label=l[0])
-            
-            # génération de la courbe de la moyenne dans un fichier PNG
-            
-            plt.savefig('client/{}'.format(fichier2))
-            plt.close()
-        
-       
-        
-        #html = '<img src="/{}?{}" alt="ponctualite {}" width="100%">'.format(fichier,self.date_time_string(),self.path)
-        body = json.dumps({
-                'title': 'Moyenne interannuelle '+self.path_info[1], \
-                'img': '/'+fichier2 \
-                 });
-        # on envoie
-        headers = [('Content-Type','application/json')];
-        self.send(body,headers)
-      
-      
-    if debit_moyenne:
-        
-        fichier3 = 'courbes/debitmoyenne'+self.path_info[1]+anD+moisD+jourD+anF+moisF+jourF+'.png'
-        #Si le fichier est déjà présent, on ne recrée pas de nouveau graphe
-        if os.path.isfile("client/"+fichier3):
-            print("Image trouvée")
-        else:
-            
-                   # configuration du tracé des moyennes
-            fig3= plt.figure(figsize=(18,6))
-            ax = fig3.add_subplot(111)
-            #ax.set_ylim(bottom=0,top=10)
-            ax.grid(which='major', color='#888888', linestyle='-')
-            ax.grid(which='minor',axis='x', color='#888888', linestyle=':')
-    #        ax.xaxis.set_major_locator(pltd.YearLocator())
-    #        ax.xaxis.set_minor_locator(pltd.MonthLocator())
-            ax.xaxis.set_major_formatter(pltd.DateFormatter('%B %Y'))
-            ax.xaxis.set_tick_params(labelsize=10)
-            ax.xaxis.set_label_text("Date")
-            ax.yaxis.set_label_text("moyenne_interannuelle_et_debit (en m3/s)")
-                     # légendes
-            plt.legend(loc='lower left')
-            plt.title("Débits et moyennes interannuelles pour la station sélectionnée",fontsize=16)
-             # boucle sur les régions
-            for l in (station) :
-                code='"'+l[0]+'"'
-                c.execute("SELECT debit_donnee_validee_m3,date FROM (SELECT debit_donnee_validee_m3,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
-                r1 = c.fetchall()
-                # recupération de la date (colonne 2) et transformation dans le format de pyplot
-                x1 = [pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r1 if not a[0] == '']
-                # récupération des débits (colonne 8)
-                y = [float(a[0]) for a in r1 if not a[0] == '']
+         
+            if moyenne:
+                l='moyenne_interannuelle  '
+                titre='Moyenne interannuelle pour la station sélectionnée'
+                ax.yaxis.set_label_text(l)
+                plt.legend(loc='lower left')
+                plt.title(titre,fontsize=16)
                 
                 
                 c.execute("SELECT moyenne_interannuelle,date FROM (SELECT moyenne_interannuelle,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
@@ -333,30 +221,59 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 # récupération des débits (colonne 8)
                 z = [float(b[0]) for b in r2 if not b[0] == '']
                 # tracé de la courbe
-                plt.plot(x1,y,linewidth=1, linestyle='-', marker='o', label=l[0])
-                plt.plot(x2,z,linewidth=1,linestyle='-',label=l[0])
+                
+                plt.plot(x2,z,linewidth=1,linestyle='-',marker='o',label=l[0])
             
-            # génération de la courbe de la moyenne dans un fichier PNG
+            if valeur_faible:
+                l='valeur_faible (m^3/s) '
+                titre='Valeur_faible pour la station sélectionnée'
+                ax.yaxis.set_label_text(l)
+                plt.legend(loc='lower left')
+                plt.title(titre,fontsize=16)
+                
             
-            plt.savefig('client/{}'.format(fichier3))
-            plt.close()
+                c.execute("SELECT valeur_faible,date FROM (SELECT valeur_faible,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
+                r2 = c.fetchall()
+                x2=[pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r2 if not a[0] == '']
+                # récupération des  (colonne 8)
+                z = [float(b[0]) for b in r2 if not b[0] == '']
+                # tracé de la courbe
+                plt.plot(x2,z,linewidth=1,linestyle='-',marker='o',label=l[0])
+            
+            if valeur_forte:
+                l='Valeur_forte (m^3/s) '
+                titre='Valeur_forte pour la station sélectionnée'
+                ax.yaxis.set_label_text(l)
+                plt.legend(loc='lower left')
+                plt.title(titre,fontsize=16)
+                
+            
+                c.execute("SELECT valeur_forte,date FROM (SELECT valeur_forte,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
+                r2 = c.fetchall()
+                x2=[pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r2 if not a[0] == '']
+                # récupération des débits (colonne 8)
+                z = [float(b[0]) for b in r2 if not b[0] == '']
+                # tracé de la courbe
+                
+                plt.plot(x2,z,linewidth=1,linestyle='-',marker='o',label=l[0]) 
+                
     
+            # génération de la courbe de débit dans un fichier PNG
+            fichier1 = 'courbe'+self.path_info[1]+d1+d2+'.png'
+            plt.savefig('client/{}'.format(fichier1))
+            plt.close()
+            
+            #html = '<img src="/{}?{}" alt="ponctualite {}" width="100%">'.format(fichier,self.date_time_string(),self.path)
+            body = json.dumps({
+                    'title': 'courbe'+self.path_info[1], \
+                    'img': '/'+fichier1 \
+                     });
+            # on envoie
+            headers = [('Content-Type','application/json')];
+            self.send(body,headers)
+            
+            
         
-        
-        #html = '<img src="/{}?{}" alt="ponctualite {}" width="100%">'.format(fichier,self.date_time_string(),self.path)
-        body = json.dumps({
-                'title': 'Moyenne interannuelle_et_debit '+self.path_info[1], \
-                'img': '/'+fichier3 \
-                 });
-        # on envoie
-        headers = [('Content-Type','application/json')];
-        self.send(body,headers)
-      
-      
-          
-      
-  # On envoie les entêtes et le corps fourni
-  #
   def send(self,body,headers=[]):
 
     # on encode la chaine de caractères à envoyer
