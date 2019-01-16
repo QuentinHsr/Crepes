@@ -284,27 +284,38 @@
 					anF=document.querySelector('#Anneefin').value;
 					moisF=document.querySelector('#Moisfin').value;
 					jourF=document.querySelector('#Jourfin').value;
-					typeGraphe="/ /";
+					typeGraphe="/graphe/";
 					checkDeb = document.querySelector('#Debit').checked;
 					checkMoy= document.querySelector('#Moyenne_Interanuelle').checked;
 					checkFaible = document.querySelector('#Valeur_faible').checked;
+					checkForte = document.querySelector('#Valeur_forte').checked;
 
-					if(checkDeb && checkMoy){
-					typeGraphe="/debits_moyennes/";
-					var debutFichier="courbes/debitmoyenne"
-					}else if(checkDeb){
-					typeGraphe="/debits/";
-					var debutFichier="courbes/debits_"
-					}else if(checkMoy){
-					typeGraphe="/moyennes/";
-					var debutFichier="courbes/moyenne"
+					if(checkDeb){
+						typeGraphe+="/1";
+					}else{
+						typeGraphe+="/0";
+					}
+					if(checkMoy){
+						typeGraphe+="/1";
+					}else{
+						typeGraphe+="/0";
+					}
+					if(checkFaible){
+						typeGraphe+="/1";
+					}else{
+						typeGraphe+="/0";
+					}
+					if(checkForte){
+						typeGraphe+="/1/";
+					}else {
+						typeGraphe+="/0/";
 					}
 
 					image =  document.querySelector('#reponse img'),
 					legende = document.querySelector('#reponse p');
 
-
 						graphRequest();
+
 					}
 
 					function graphRequest(){
