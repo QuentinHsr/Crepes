@@ -306,9 +306,9 @@
 						typeGraphe+="/0";
 					}
 					if(checkForte){
-						typeGraphe+="/1/";
+						typeGraphe+="/1";
 					}else {
-						typeGraphe+="/0/";
+						typeGraphe+="/0";
 					}
 
 					image =  document.querySelector('#reponse img'),
@@ -335,7 +335,7 @@
 
 						};
 
-						chaine=typeGraphe+stationID+'/'+anD+'/'+moisD+'/'+jourD+'/'+anF+'/'+moisF+'/'+jourF;
+						chaine=typeGraphe+'/'+anD+'/'+moisD+'/'+jourD+'/'+anF+'/'+moisF+'/'+jourF+'/'+stationID;
 
 						xhr.open('GET',chaine,true);  // on récupère la courbe par un appel au serveur
 						xhr.send();

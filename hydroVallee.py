@@ -36,12 +36,13 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
       
      # le chemin d'accès commence par /time
     elif self.path_info[0] == 'time':
-      self.send_time()    
+      self.send_time()   
       
+    elif self.path_info[0] == 'graphe':
+      self.send_courbes() 
      
     else:
-      self.send_courbes()
-    
+      
       self.send_static()
 
 
@@ -140,40 +141,50 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
 
 
             
-    def send_courbes(self):
+  def send_courbes(self):
 
-        conn = sqlite3.connect('Crepes.sqlite')
-        c = conn.cursor()
-        anD=self.path_info[5]
-        moisD=self.path_info[6]
-        jourD=self.path_info[7]
-        anF=self.path_info[8]
-        moisF=self.path_info[9]
-        jourF=self.path_info[10]
-        
+    conn = sqlite3.connect('Crepes.sqlite')
+    c = conn.cursor()
+    anD=self.path_info[5]
+    moisD=self.path_info[6]
+    jourD=self.path_info[7]
+    anF=self.path_info[8]
+    moisF=self.path_info[9]
+    jourF=self.path_info[10]
+    cdeb=self.path_info[1]
+    cmoy=self.path_info[2]
+    cvf=self.path_info[3]
+    cvF=self.path_info[4]
+    
+    fichier1 = 'courbes/'+cdeb+cmoy+cvf+cvF+self.path_info[11]+anD+moisD+jourD+anF+moisF+jourF+'.png'
+
+    #Si le fichier est déjà présent, on ne recrée pas de nouveau graphe
+    
+    if os.path.isfile("client/"+fichier1):
+        print("Image trouvée")
+    else:
+    
         d1="'{}-{}-{}'".format(anD,moisD,jourD) 
         d2="'{}-{}-{}'".format(anF,moisF,jourF) 
         
-        if len(self.path_info) <= 1 or self.path_info[1] == '' :   # pas de paramètre => liste par défaut
-            # Definition des régions et des couleurs de tracé
-    #        regions = [("Rhône Alpes","blue"), ("Auvergne","green"), ("Auvergne-Rhône Alpes","cyan"), ('Bourgogne',"red"), 
-    #                   ('Franche Comté','orange'), ('Bourgogne-Franche Comté','olive') ]
-            station = [("J1711710","blue")]
-            self.path_info[1]="inconnu"
+        if len(self.path_info) <= 1 or self.path_info[11] == '' :   # pas de paramètre => station par défaut
+            station = [("J1711710","blue")]                         #pas utilisé en pratique parce qu'il s'agit de stations grisées
+            self.path_info[11]="inconnu"
         else:
             # On teste que la région demandée existe bien
             c.execute("SELECT code_hydro FROM 'hydro_historique'")
             codes = c.fetchall()
-            if (self.path_info[1],) in codes:   # Rq: codes est une liste de tuples
-              station = [(self.path_info[1],"blue")]
+            if (self.path_info[11],) in codes:   # Rq: codes est une liste de tuples
+              station = [(self.path_info[11],"blue")]
             else:
                 print ('Erreur nom')
                 self.send_error(404)    # Station non trouvée -> erreur 404
                 return None
-        debit=bool(self.path_info[1])
-        moyenne=bool(self.path_info[2])
-        valeur_faible=bool(self.path_info[3])
-        valeur_forte=bool(self.path_info[4])
+            
+        debit=bool(int(cdeb))
+        moyenne=bool(int(cmoy))
+        valeur_faible=bool(int(cvf))
+        valeur_forte=bool(int(cvF))
     
        # boucle sur les régions
         for l in (station) :
@@ -190,7 +201,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             ax.xaxis.set_label_text("Date")
             
             if debit:
-                l='debit (m^3/s) '
+                caca='debit (m^3/s) '
                 titre='Debit pour la station sélectionnée'
                 ax.yaxis.set_label_text(l)
                 plt.legend(loc='lower left')
@@ -208,13 +219,13 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 plt.plot(x,y,linewidth=1, linestyle='-', marker='o', color=l[1], label=l[0])
          
             if moyenne:
-                l='moyenne_interannuelle  '
+                caca='moyenne_interannuelle  '
                 titre='Moyenne interannuelle pour la station sélectionnée'
                 ax.yaxis.set_label_text(l)
                 plt.legend(loc='lower left')
                 plt.title(titre,fontsize=16)
                 
-                
+                code='"'+l[0]+'"'
                 c.execute("SELECT moyenne_interannuelle,date FROM (SELECT moyenne_interannuelle,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
                 r2 = c.fetchall()
                 x2=[pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r2 if not a[0] == '']
@@ -225,13 +236,13 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 plt.plot(x2,z,linewidth=1,linestyle='-',marker='o',label=l[0])
             
             if valeur_faible:
-                l='valeur_faible (m^3/s) '
+                caca='valeur_faible (m^3/s) '
                 titre='Valeur_faible pour la station sélectionnée'
                 ax.yaxis.set_label_text(l)
                 plt.legend(loc='lower left')
                 plt.title(titre,fontsize=16)
                 
-            
+                code='"'+l[0]+'"'
                 c.execute("SELECT valeur_faible,date FROM (SELECT valeur_faible,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
                 r2 = c.fetchall()
                 x2=[pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r2 if not a[0] == '']
@@ -241,13 +252,13 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 plt.plot(x2,z,linewidth=1,linestyle='-',marker='o',label=l[0])
             
             if valeur_forte:
-                l='Valeur_forte (m^3/s) '
+                caca='Valeur_forte (m^3/s) '
                 titre='Valeur_forte pour la station sélectionnée'
                 ax.yaxis.set_label_text(l)
                 plt.legend(loc='lower left')
                 plt.title(titre,fontsize=16)
                 
-            
+                code='"'+l[0]+'"'
                 c.execute("SELECT valeur_forte,date FROM (SELECT valeur_forte,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
                 r2 = c.fetchall()
                 x2=[pltd.date2num(dt.date(int(a[1][:4]),int(a[1][5:7]),int(a[1][8:]))) for a in r2 if not a[0] == '']
@@ -259,19 +270,19 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 
     
             # génération de la courbe de débit dans un fichier PNG
-            fichier1 = 'courbe'+self.path_info[1]+d1+d2+'.png'
+            
             plt.savefig('client/{}'.format(fichier1))
             plt.close()
             
-            #html = '<img src="/{}?{}" alt="ponctualite {}" width="100%">'.format(fichier,self.date_time_string(),self.path)
-            body = json.dumps({
-                    'title': 'courbe'+self.path_info[1], \
-                    'img': '/'+fichier1 \
-                     });
-            # on envoie
-            headers = [('Content-Type','application/json')];
-            self.send(body,headers)
-            
+        #html = '<img src="/{}?{}" alt="ponctualite {}" width="100%">'.format(fichier,self.date_time_string(),self.path)
+        body = json.dumps({
+                'title': 'courbe'+self.path_info[11], \
+                'img': '/'+fichier1 \
+                 });
+        # on envoie
+        headers = [('Content-Type','application/json')];
+        self.send(body,headers)
+        
             
         
   def send(self,body,headers=[]):
