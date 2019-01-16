@@ -25,7 +25,7 @@
 
 
 		  	<h2 id="gestionTitle">Gestion des graphiques</h2>
-				<button id="gestion" type="bouton" onclick="scrollG();">GO</button>
+				<button id="gestion" type="bouton" onclick="scrollGO();">GO</button>
 			  </div>
 
 				<form id="form" method="post">
@@ -267,10 +267,11 @@
 
 					}
 
-					function scrollG(e)
+					function scrollGO(e)
 					{
 						document.querySelector('#form')
 						.scrollIntoView({ behavior: 'smooth' });
+						graphRequest();
 					}
 
 					function Valider(e){
