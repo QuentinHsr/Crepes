@@ -95,6 +95,10 @@ text-align: center;
 
 }
 
+#gestionTitle
+{
+  margin-bottom: -2px;
+}
 
 #gestion
 {

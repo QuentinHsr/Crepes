@@ -24,7 +24,7 @@
 				<div id="Gestion">
 
 
-		  	<h2 >Gestion des graphiques</h2>
+		  	<h2 id="gestionTitle">Gestion des graphiques</h2>
 				<button id="gestion" type="bouton" onclick="scrollG();">GO</button>
 			  </div>
 
@@ -259,6 +259,7 @@
 					stationID=e.target.idreg;
 					dataIsAv=e.target.dataIsAv;
 					nomStat=e.target.nom;
+
 					document.querySelector('#reponse p').innerHTML=nomStat;
 					document.querySelector('#reponse img').src = graphiqueSource;
 
@@ -276,45 +277,56 @@
 					//  document.querySelector('#reponse p').innerHTML=jourf;
 					//window.scrollBy(0,-1000);
 
-					var xhr = new XMLHttpRequest();
-					var image =  document.querySelector('#reponse img'),
-					legende = document.querySelector('#reponse p');
-					xhr.onload = function() {   // fonction callback
-					if(dataIsAv){
-					var data = JSON.parse(this.responseText)
-					image.src = data.img;
-					image.alt = data.title;
-					//	legende.innerHTML = nomStat;
-					//		legende.innerHTML=stationID;
-					}else{
-					image.src = graphiqueSource;
-					legende.innerHTML = "Données manquantes";
-					}
-
-					};
-					var anD='/'+document.querySelector('#Anneedebut').value;
-					var moisD='/'+document.querySelector('#Moisdebut').value;
-					var jourD='/'+document.querySelector('#Jourdebut').value;
-					var anF='/'+document.querySelector('#Anneefin').value;
-					var moisF='/'+document.querySelector('#Moisfin').value;
-					var jourF='/'+document.querySelector('#Jourfin').value;
-					var typeGraphe="/ /";
-					var checkDeb = document.querySelector('#Debit').checked;
-					var checkMoy= document.querySelector('#Moyenne_Interanuelle').checked;
-					var checkFaible = document.querySelector('#Valeur_faible').checked;
+					anD=document.querySelector('#Anneedebut').value;
+					moisD=document.querySelector('#Moisdebut').value;
+					jourD=document.querySelector('#Jourdebut').value;
+					anF=document.querySelector('#Anneefin').value;
+					moisF=document.querySelector('#Moisfin').value;
+					jourF=document.querySelector('#Jourfin').value;
+					typeGraphe="/ /";
+					checkDeb = document.querySelector('#Debit').checked;
+					checkMoy= document.querySelector('#Moyenne_Interanuelle').checked;
+					checkFaible = document.querySelector('#Valeur_faible').checked;
 
 					if(checkDeb && checkMoy){
 					typeGraphe="/debits_moyennes/";
+					var debutFichier="courbes/debitmoyenne"
 					}else if(checkDeb){
 					typeGraphe="/debits/";
+					var debutFichier="courbes/debits_"
 					}else if(checkMoy){
 					typeGraphe="/moyennes/";
+					var debutFichier="courbes/moyenne"
 					}
 
-					chaine=typeGraphe+stationID+anD+moisD+jourD+anF+moisF+jourF;
+					image =  document.querySelector('#reponse img'),
+					legende = document.querySelector('#reponse p');
 
-					xhr.open('GET',chaine,true);  // on récupère la courbe par un appel au serveur
-					xhr.send();
+
+						graphRequest();
+					}
+
+					function graphRequest(){
+						var xhr = new XMLHttpRequest();
+
+						xhr.onload = function() {   // fonction callback
+						if(dataIsAv){
+						var data = JSON.parse(this.responseText)
+						image.src = data.img;
+						image.alt = data.title;
+						//	legende.innerHTML = nomStat;
+						//		legende.innerHTML=stationID;
+						}else{
+						image.src = graphiqueSource;
+						legende.innerHTML = "Données manquantes";
+						}
+
+						};
+
+						chaine=typeGraphe+stationID+'/'+anD+'/'+moisD+'/'+jourD+'/'+anF+'/'+moisF+'/'+jourF;
+
+						xhr.open('GET',chaine,true);  // on récupère la courbe par un appel au serveur
+						xhr.send();
 
 					}
 

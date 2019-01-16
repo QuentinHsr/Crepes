@@ -14,7 +14,7 @@ import datetime as dt
 import matplotlib.dates as pltd
 
 import sqlite3
-
+import os.path
 conn = sqlite3.connect('Crepes.sqlite')
 c = conn.cursor()
 
@@ -39,13 +39,17 @@ c = conn.cursor()
 
 
 
-d1="'{}-{}-{}'".format('2018','01','04') 
-d2="'{}-{}-{}'".format('2018','01','10')
-
-c.execute("SELECT debit_donnee_validee_m3,date FROM (SELECT debit_donnee_validee_m3,date FROM hydro_historique  WHERE code_hydro=?) WHERE date BETWEEN {} and {} ORDER BY date".format(d1,d2),("'J1711710'",))  # ou (l[0],)
-r = c.fetchall()
+#d1="'{}-{}-{}'".format('2018','01','04') 
+#d2="'{}-{}-{}'".format('2018','01','10')
+#
+#c.execute("SELECT debit_donnee_validee_m3,date FROM (SELECT debit_donnee_validee_m3,date FROM hydro_historique  WHERE code_hydro=?) WHERE date BETWEEN {} and {} ORDER BY date".format(d1,d2),("'J1711710'",))  # ou (l[0],)
+#r = c.fetchall()
             
-
+fichier1 = 'courbes/debits_'+'J93006112017090120180901'+'.png'
+if os.path.isfile("client/"+fichier1):
+    print("Image trouvée")
+else:
+    print("Image non trouvée")
 
 
 
