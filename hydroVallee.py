@@ -194,19 +194,16 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             #ax.set_ylim(bottom=0,top=10)
             ax.grid(which='major', color='#888888', linestyle='-')
             ax.grid(which='minor',axis='x', color='#888888', linestyle=':')
-            ax.xaxis.set_major_locator(pltd.YearLocator())
-            ax.xaxis.set_minor_locator(pltd.MonthLocator())
+            #ax.xaxis.set_major_locator(pltd.YearLocator())
+            #ax.xaxis.set_minor_locator(pltd.MonthLocator())
             ax.xaxis.set_major_formatter(pltd.DateFormatter('%B %Y'))
             ax.xaxis.set_tick_params(labelsize=10)
             ax.xaxis.set_label_text("Date")
+            titre='Données pour la station sélectionnée'
+            ax.yaxis.set_label_text('m^3/s')
+            plt.title(titre,fontsize=14)
             
             if debit:
-                caca='debit (m^3/s) '
-                titre='Debit pour la station sélectionnée'
-                ax.yaxis.set_label_text(l)
-                plt.legend(loc='lower left')
-                plt.title(titre,fontsize=16)
-                
             
                 code='"'+l[0]+'"'
                 c.execute("SELECT  debit_donnee_validee_m3,date FROM (SELECT  debit_donnee_validee_m3,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
@@ -216,14 +213,10 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 # récupération des débits (colonne 8)
                 y = [float(a[0]) for a in r if not a[0] == '']
                 # tracé de la courbe
-                plt.plot(x,y,linewidth=1, linestyle='-', marker='o', color=l[1], label=l[0])
-         
+                plt.plot(x,y,linewidth=1, linestyle='-', marker='o', color='blue', label="débit")
+                plt.legend(loc='upper right')
+                
             if moyenne:
-                caca='moyenne_interannuelle  '
-                titre='Moyenne interannuelle pour la station sélectionnée'
-                ax.yaxis.set_label_text(l)
-                plt.legend(loc='lower left')
-                plt.title(titre,fontsize=16)
                 
                 code='"'+l[0]+'"'
                 c.execute("SELECT moyenne_interannuelle,date FROM (SELECT moyenne_interannuelle,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
@@ -233,14 +226,10 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 z = [float(b[0]) for b in r2 if not b[0] == '']
                 # tracé de la courbe
                 
-                plt.plot(x2,z,linewidth=1,linestyle='-',marker='o',label=l[0])
+                plt.plot(x2,z,linewidth=1,linestyle='-', color='green', label="moyenne")
+                plt.legend(loc='upper right')
             
             if valeur_faible:
-                caca='valeur_faible (m^3/s) '
-                titre='Valeur_faible pour la station sélectionnée'
-                ax.yaxis.set_label_text(l)
-                plt.legend(loc='lower left')
-                plt.title(titre,fontsize=16)
                 
                 code='"'+l[0]+'"'
                 c.execute("SELECT valeur_faible,date FROM (SELECT valeur_faible,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
@@ -249,14 +238,10 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 # récupération des  (colonne 8)
                 z = [float(b[0]) for b in r2 if not b[0] == '']
                 # tracé de la courbe
-                plt.plot(x2,z,linewidth=1,linestyle='-',marker='o',label=l[0])
-            
+                plt.plot(x2,z,linewidth=1,linestyle='-', color='orange', label="valeur faible")
+                plt.legend(loc='upper right')
+                
             if valeur_forte:
-                caca='Valeur_forte (m^3/s) '
-                titre='Valeur_forte pour la station sélectionnée'
-                ax.yaxis.set_label_text(l)
-                plt.legend(loc='lower left')
-                plt.title(titre,fontsize=16)
                 
                 code='"'+l[0]+'"'
                 c.execute("SELECT valeur_forte,date FROM (SELECT valeur_forte,date FROM hydro_historique  WHERE code_hydro={}) WHERE date BETWEEN {} and {} ORDER BY date".format(code,d1,d2))  # ou (l[0],)
@@ -266,8 +251,8 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                 z = [float(b[0]) for b in r2 if not b[0] == '']
                 # tracé de la courbe
                 
-                plt.plot(x2,z,linewidth=1,linestyle='-',marker='o',label=l[0]) 
-                
+                plt.plot(x2,z,linewidth=1,linestyle='-', color='red', label="valeur forte") 
+                plt.legend(loc='upper right')
     
             # génération de la courbe de débit dans un fichier PNG
             
@@ -275,13 +260,15 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             plt.close()
             
         #html = '<img src="/{}?{}" alt="ponctualite {}" width="100%">'.format(fichier,self.date_time_string(),self.path)
-        body = json.dumps({
-                'title': 'courbe'+self.path_info[11], \
-                'img': '/'+fichier1 \
-                 });
-        # on envoie
-        headers = [('Content-Type','application/json')];
-        self.send(body,headers)
+    body = json.dumps({
+            'title': 'courbe'+self.path_info[11], \
+            'img': '/'+fichier1 \
+             });
+    # on envoie
+    print("fichier1: "+fichier1)
+    headers = [('Content-Type','application/json')];
+    self.send(body,headers)
+    print("---------------Fin requete----------------")
         
             
         
