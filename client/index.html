@@ -192,15 +192,14 @@
 
 			<div><a id="cRetour" class="cInvisible" onclick="window.scroll({ top: 0, behavior: 'smooth' })"></a></div>
 
-
-			<script>
+		<script>
 				document.addEventListener('DOMContentLoaded', function() {
 				window.onscroll = function(ev) {
 				document.getElementById("cRetour").className = (window.pageYOffset > 100) ? "cVisible" : "cInvisible";
 			};
 			});
 
-			//variables globales
+			// variable globale
 			graphiqueSource= "images/cadre.png";
 
 			// Creation d'une carte dans la balise div "map", et positionne la vue sur un point donné et un niveau de zoom
@@ -210,6 +209,7 @@
 			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 			}).addTo(map);
 
+			// Creation d'un type de marqueur de couleur grise
 			var greyMarker = L.icon({
 			iconUrl: 'images/marker-icon-2x-gris.png',
 			shadowUrl: 'images/marker-shadow.png',
@@ -219,144 +219,135 @@
 			popupAnchor:[1,-34]
 			});
 
+			// fonction appelée lors du (re)chargement de la page
 			function load_data () {
-			var xhr = new XMLHttpRequest();
-			xhr.onload = function() {   // fonction callback
-			// récupération des données renvoyées par le serveur
-			var data = JSON.parse(this.responseText);
-			// boucle sur les enregistrements renvoyés
-			for ( n = 0; n < data.length; n++ ) {
-					// insertion d'un marqueur à la position, attachement d'une popup, capture de l'évènement "clic'
-					if(data[n].datAv==0){
-					var marke = L.marker([data[n].lat,data[n].lon],{icon:greyMarker});
-					}else{
-					var marke = L.marker([data[n].lat,data[n].lon]);
+
+				var xhr = new XMLHttpRequest();
+				xhr.onload = function() {   // fonction callback
+					// récupération des données renvoyées par le serveur
+					var data = JSON.parse(this.responseText);
+					// boucle sur les enregistrements renvoyés
+					for ( n = 0; n < data.length; n++ ) {
+						// insertion d'un marqueur à la position, attachement d'une popup, capture de l'évènement "clic'
+						// le marqueur est gris si les données de la station ne sont pas disponibles
+						if(data[n].datAv==0){
+							var marke = L.marker([data[n].lat,data[n].lon],{icon:greyMarker});
+						}else{
+							var marke = L.marker([data[n].lat,data[n].lon]);
+						}
+						marke.addTo(map)
+						.bindPopup(data[n].nom);
+						marke.idreg=data[n].cd;   // propriétés personnalisées ajoutées au marqueur
+						marke.dataIsAv=data[n].datAv;
+						marke.nom=data[n].nom;
+						marke.addEventListener('click',OnMarkerClick);	// fonction appelée lors du clic sur un marqueur
 					}
-					marke.addTo(map)
-					.bindPopup(data[n].nom);
-					marke.idreg=data[n].cd;   // propriété personnalisée ajouté au marqueur
-					marke.dataIsAv=data[n].datAv;
-					marke.nom=data[n].nom;
-					marke.addEventListener('click',OnMarkerClick);
+				};
+				xhr.open('GET','/stations',true);		// requête au serveur pour récupérer les noms et localisations des stations
+				xhr.send();
+				document.querySelector('#reponse img').src=graphiqueSource;	// initialisation de l'image réponse à un cadre vide
+			}
 
-					}
-					};
-					xhr.open('GET','/stations',true);
-					xhr.send();
-					document.querySelector('#reponse img').src=graphiqueSource;
+			// variables globales qui vont être définies dans certaines fonctions et utilisées dans d'autres
+			// (c'est le cas pour toutes les variables déclarées sans 'var'
+			stationID="";
+			dataIsAv="";
 
-					}
+			// fonction appelée lors du clic sur un marqueur
+			// elle permet de transmettre les informations associées à ce marqueur au reste du script
+			function OnMarkerClick (e) {
+				stationID=e.target.idreg;
+				dataIsAv=e.target.dataIsAv;
+				nomStat=e.target.nom;
 
-					function AfficheAv(e) {
-					document.querySelector('#reponse p').innerHTML=stationID;
-					}
+				document.querySelector('#reponse p').innerHTML=nomStat;
+				document.querySelector('#reponse img').src = graphiqueSource;
+			}
 
+			// fonction appelée lors du clic sur le bouton GO
+			function scrollGO(e)
+			{
+				document.querySelector('#form')
+				.scrollIntoView({ behavior: 'smooth' });	// scroll jusqu'à ce que le formulaire soit en haut de la fenêtre
+				graphRequest();														// effectue la reqête vers le serveur permettant de récupérer le bon graphique
+			}
 
+			// fonction appelée lors du clic sur le bouton 'valider' ou sur la touche 'entrée'
+			function Valider(e){
+				// variables globales issues du formulaire qui pourront être utilisées dans la fonction graphRequest
+				anD=document.querySelector('#Anneedebut').value;
+				moisD=document.querySelector('#Moisdebut').value;
+				jourD=document.querySelector('#Jourdebut').value;
+				anF=document.querySelector('#Anneefin').value;
+				moisF=document.querySelector('#Moisfin').value;
+				jourF=document.querySelector('#Jourfin').value;
+				typeGraphe="/graphe";
+				checkDeb = document.querySelector('#Debit').checked;
+				checkMoy= document.querySelector('#Moyenne_Interanuelle').checked;
+				checkFaible = document.querySelector('#Valeur_faible').checked;
+				checkForte = document.querySelector('#Valeur_forte').checked;
 
-					stationID="";
-					dataIsAv="";
+				// code à envoyer pour indiquer au serveur quels types de données envoyer
+				if(checkDeb){
+					typeGraphe+="/1";
+				}else{
+					typeGraphe+="/0";
+				}
+				if(checkMoy){
+					typeGraphe+="/1";
+				}else{
+					typeGraphe+="/0";
+				}
+				if(checkFaible){
+					typeGraphe+="/1";
+				}else{
+					typeGraphe+="/0";
+				}
+				if(checkForte){
+					typeGraphe+="/1";
+				}else {
+					typeGraphe+="/0";
+				}
 
-					function OnMarkerClick (e) {
-					stationID=e.target.idreg;
-					dataIsAv=e.target.dataIsAv;
-					nomStat=e.target.nom;
+				image =  document.querySelector('#reponse img'),
+				legende = document.querySelector('#reponse p');
 
-					document.querySelector('#reponse p').innerHTML=nomStat;
-					document.querySelector('#reponse img').src = graphiqueSource;
+				graphRequest();	// effectue la reqête vers le serveur permettant de récupérer le bon graphique
 
+			}
 
-					}
+			function graphRequest(){
+				var xhr = new XMLHttpRequest();
 
-					function scrollGO(e)
-					{
-						document.querySelector('#form')
-						.scrollIntoView({ behavior: 'smooth' });
-						graphRequest();
-					}
-
-					function Valider(e){
-					//  jourf = document.getElementById('Jourfin').value;
-					//  document.querySelector('#reponse p').innerHTML=jourf;
-					//window.scrollBy(0,-1000);
-
-					anD=document.querySelector('#Anneedebut').value;
-					moisD=document.querySelector('#Moisdebut').value;
-					jourD=document.querySelector('#Jourdebut').value;
-					anF=document.querySelector('#Anneefin').value;
-					moisF=document.querySelector('#Moisfin').value;
-					jourF=document.querySelector('#Jourfin').value;
-					typeGraphe="/graphe";
-					checkDeb = document.querySelector('#Debit').checked;
-					checkMoy= document.querySelector('#Moyenne_Interanuelle').checked;
-					checkFaible = document.querySelector('#Valeur_faible').checked;
-					checkForte = document.querySelector('#Valeur_forte').checked;
-
-					if(checkDeb){
-						typeGraphe+="/1";
-					}else{
-						typeGraphe+="/0";
-					}
-					if(checkMoy){
-						typeGraphe+="/1";
-					}else{
-						typeGraphe+="/0";
-					}
-					if(checkFaible){
-						typeGraphe+="/1";
-					}else{
-						typeGraphe+="/0";
-					}
-					if(checkForte){
-						typeGraphe+="/1";
-					}else {
-						typeGraphe+="/0";
-					}
-
-					image =  document.querySelector('#reponse img'),
-					legende = document.querySelector('#reponse p');
-
-						graphRequest();
-
-					}
-
-					function graphRequest(){
-						var xhr = new XMLHttpRequest();
-
-						xhr.onload = function() {   // fonction callback
-						if(dataIsAv){
+				xhr.onload = function() {   // fonction callback
+					if(dataIsAv){							// si on a cliqué sur un marqueur bleu
 						var data = JSON.parse(this.responseText)
 						image.src = data.img;
 						image.alt = data.title;
-						//	legende.innerHTML = nomStat;
-						//		legende.innerHTML=stationID;
-						}else{
+					}else{										// ou sur un marqueur gris
 						image.src = graphiqueSource;
 						legende.innerHTML = "Données manquantes";
-						}
-
-						};
-
-						chaine=typeGraphe+'/'+anD+'/'+moisD+'/'+jourD+'/'+anF+'/'+moisF+'/'+jourF+'/'+stationID;
-
-						xhr.open('GET',chaine,true);  // on récupère la courbe par un appel au serveur
-						xhr.send();
-
 					}
 
+				};
 
-					// Get the input field
-					var input = document.getElementById("body");
+				// code compris par le serveur pour générer un graphique particulier
+				chaine=typeGraphe+'/'+anD+'/'+moisD+'/'+jourD+'/'+anF+'/'+moisF+'/'+jourF+'/'+stationID;
 
-					// Execute a function when the user releases a key on the keyboard
-					input.addEventListener("keyup", function(event) {
-					// Cancel the default action, if needed
-					event.preventDefault();
-					// Number 13 is the "Enter" key on the keyboard
-					if (event.keyCode === 13) {
-					// Trigger the button element with a click
-					document.getElementById("valider").click();
-					}
-					});
+				xhr.open('GET',chaine,true);  // on récupère la courbe par un appel au serveur
+				xhr.send();
+
+			}
 
 
-				</script>
+			// Activation du bouton 'valider' par un appui sur la touche 'entrée'
+			var input = document.getElementById("body");
+			input.addEventListener("keyup", function(event) {
+			event.preventDefault();
+			if (event.keyCode === 13) {
+				document.getElementById("valider").click();
+			}
+			});
+
+
+		</script>
