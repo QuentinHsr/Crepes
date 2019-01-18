@@ -269,7 +269,12 @@
 			{
 				document.querySelector('#form')
 				.scrollIntoView({ behavior: 'smooth' });	// scroll jusqu'à ce que le formulaire soit en haut de la fenêtre
-				graphRequest();														// effectue la reqête vers le serveur permettant de récupérer le bon graphique
+				if(dateOk){
+					graphRequest();	// effectue la reqête vers le serveur permettant de récupérer le bon graphique
+				}else{
+					document.querySelector('#reponse p').innerHTML="Dates incohérentes";
+					document.querySelector('#reponse img').src = graphiqueSource;
+				}
 			}
 
 			// fonction appelée lors du clic sur le bouton 'valider' ou sur la touche 'entrée'
@@ -286,7 +291,9 @@
 				checkMoy= document.querySelector('#Moyenne_Interanuelle').checked;
 				checkFaible = document.querySelector('#Valeur_faible').checked;
 				checkForte = document.querySelector('#Valeur_forte').checked;
-
+				date1 = parseInt(anD+moisD+jourD);
+				date2 = parseInt(anF+moisF+jourF);
+				dateOk=(date1<date2);
 				// code à envoyer pour indiquer au serveur quels types de données envoyer
 				if(checkDeb){
 					typeGraphe+="/1";
@@ -311,8 +318,12 @@
 
 				image =  document.querySelector('#reponse img'),
 				legende = document.querySelector('#reponse p');
-
-				graphRequest();	// effectue la reqête vers le serveur permettant de récupérer le bon graphique
+				if(dateOk){
+					graphRequest();	// effectue la reqête vers le serveur permettant de récupérer le bon graphique
+				}else{
+					document.querySelector('#reponse p').innerHTML="Dates incohérentes";
+					document.querySelector('#reponse img').src = graphiqueSource;
+				}
 
 			}
 

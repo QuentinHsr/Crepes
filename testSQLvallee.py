@@ -50,6 +50,14 @@ if os.path.isfile("client/"+fichier1):
     print("Image trouvée")
 else:
     print("Image non trouvée")
+    
+fichier1 = 'courbes/debits_'+self.path_info[1]+anD+moisD+jourD+anF+moisF+jourF+'.png'
+
+#Si le fichier est déjà présent, on ne recrée pas de nouveau graphe
+
+if os.path.isfile("client/"+fichier1):
+    print("Image trouvée")
+else:
 
 
 
